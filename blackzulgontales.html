@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Black Zulgon</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0; padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #c62828;
+      text-shadow: 0 0 8px #ff0000;
+    }
+
+
+    #search-box {
+      width: 80%;
+      max-width: 600px;
+      padding: 0.8rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 10px #c62828;
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+
+    #results {
+      width: 80%;
+      max-width: 700px;
+    }
+
+
+    .tale {
+      background: #121212;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-left: 4px solid #c62828;
+      box-shadow: 0 0 10px #330000;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+
+
+    .tale:hover {
+      background: #2a0a0a;
+    }
+
+
+    .title {
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: #ff4d4d;
+    }
+
+
+    .description {
+      font-size: 1rem;
+      margin-top: 0.3rem;
+      color: #ccc;
+    }
+
+
+    .full-text {
+      margin-top: 0.8rem;
+      font-size: 0.95rem;
+      color: #aaa;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+
+    footer {
+      margin-top: auto;
+      color: #555;
+      font-size: 0.9rem;
+      padding: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Black Zulgon</h1>
+  <input type="text" id="search-box" placeholder="Search the darkest tales..." />
+
+
+  <div id="results"></div>
+
+
+  <footer>Corrupted by Black Zulgon &mdash; Feed your fear</footer>
+
+
+  <script>
+    // ===== Easy-to-Add Tale Format =====
+    const darkTales = [
+      
+    {
+        title: "The Whispering Shadows",
+        description: "In a town swallowed by eternal night, shadows whisper secrets no one dares to hear.",
+        fullText: `Ravenshade fell silent decades ago.
+The lights never returned.
+And the world forgot it ever existed.
+
+
+Now, the shadows speak—whispering truths that splinter the mind of anyone who dares cross its borders.
+
+
+Only one ever came back.
+His eyes were missing.
+He wouldn’t stop laughing.
+
+
+What occurred there was not merely tragedy—it was the birthing ground of something older, something unbearably evil. A presence that defiled the soil, that twisted fate itself. No man should have listened to its voice. No shaman could have foreseen its venom. Darkness consumed him, left him ash and memory.
+
+
+But who or what did this?
+
+
+This was no ordinary corruption. Normal darkness festers, then fades. This one... endured. An eternal wildfire in a room of dry wood—uncured, uncontained.
+
+
+They called it The Integral.
+A name as ancient as time.
+A construct—not of flesh, but of narrative.
+
+
+It writes each world as it sees fit.
+And it wrote Ravenshade's doom.
+
+
+The Whispering Shadows did not merely speak; they wept. Their sorrow echoed in every corner of that cursed place.
+
+
+Wherever a towner walked, a whisper followed.
+A curse that clung.
+A corruption immortalized.
+
+
+And The Integral became the pen.
+
+
+To hear the whispers is to spiral.
+To resist is to suffer.
+And to know them is to go mad with the wind.
+
+
+There is no escape from this fate
+unless you leave.
+Leave Ravenshade.
+Flee the voices.
+Cling to what remains of your mind.
+
+
+If you can.`
+      },
+      
+      {
+        title: "Blood Moon's Curse",
+        description: "Each blood moon awakens the Blackmoor bloodline, cursed to feast beyond death.",
+        fullText: `They buried the Blackmoor family deep
+Beneath stone, salt, and sacred sigils.
+Layers of earth, ritual, and fear.
+
+
+But every Blood Moon, the ground cracks open.
+And from the depths, howls rise.
+
+
+Doors lock.
+Windows shutter.
+Prayers fall silent.
+
+
+The Blackmoors rise.
+And they remember names.
+
+
+They hunt the descendants of those who sealed them away.
+They do not fear.
+They do not forgive.
+They do not stop.
+
+
+Some say it was The Integral—the metaphysical pen, the cosmic scribe that wrote their fate.
+A question asked by Man: Were our fates scrawled into a book we can never read?
+And if so, who held the pen?
+
+
+The Blackmoors exist outside the concept of death.
+No weakness binds them.
+No force restrains them.
+They are beyond time, beyond mortal consequence.
+
+
+“A pitiful little construct,” sneered Blackmoor Vrognun,
+“Made for those too afraid to face the unseen.
+Perhaps a well-fed feast will remind them where their gods truly lie.”
+
+
+For the Blackmoors do not worship man’s gods.
+They serve something older.
+Something darker.
+
+
+A six-horned entity.
+A spiraling rift where a face should be.
+And a grin, rows of teeth so sharp, even the bravest break before it.
+
+
+No one knows its name.
+Not anymore.
+
+
+But the Blackmoors do.
+And they speak it when they kill.`
+      },
+      
+      {
+        title: "Eyes in the Fog",
+        description: "Travelers disappear in the mist, watched by glowing, unblinking eyes.",
+        fullText: `They say the fog comes without warning—
+Not drifting, but crawling.
+A silent tide that rolls in thick and cold, swallowing sound, swallowing light.
+
+
+It arrives in the dead hours of night, when even the stars seem to retreat.
+One moment, the world is still.
+The next, all is gray.
+
+
+Then comes the gravel—
+A slow crunch, like someone dragging bare feet over broken stone.
+You turn.
+Nothing.
+
+
+But you feel it.
+The watching.
+
+
+That’s when the eyes appear.
+
+
+Red.
+Unblinking.
+Hungry.
+
+
+They hover just beyond the edge of clarity, never blinking, never moving—just waiting.
+Staring.
+
+
+No one has ever seen what the eyes belong to.
+Some say they float.
+Others say they hang from twisted bodies draped in fog.
+Some claim the fog itself is alive, and the eyes are its thoughts.
+
+
+But one thing is certain:
+
+
+The fog never leaves with what it came for.
+
+
+Only the empty.
+
+
+Bootprints in wet dirt that lead nowhere.
+Half-whispered screams carried on the wind.
+Sometimes, a coat. A satchel. A boot.
+Still warm.
+
+
+They say if you see the eyes…
+You’ve already been chosen.
+
+
+And if the fog finds you?
+
+
+You won’t leave.
+But the fog will.`
+      },
+      
+      {
+      title: "Lands Damned by Time",
+      description: "An alternate time space has destroyed what was precious and made.",
+      fullText: `Once, the hills were green and beautiful.
+Flowers bloomed in vibrant colors, and the sun shone gently for those who wandered.
+
+
+But then—time collapsed within their narrative.
+
+
+And something else took its place.
+A broken version. Twisted. One that no longer obeys the laws it once upheld.
+
+
+Now, everything is wrong.
+
+
+Some move too slowly in these lands. Others, far too fast.
+One ran so quickly he tore through another by accident—flesh split, blood spilled, and panic followed.
+
+
+From then on, all who remained limited their movement.
+Many fled.
+Some vanished entirely.
+
+
+But these lands are not confined.
+
+
+They spread.
+They reach.
+And now… they’re coming quicker than ever before.`
+      },
+      
+      {
+        title: "Gluttony that Never Dies",
+        description: "It may be better to starve...",
+        fullText: `In the distant town of Fandelur, nestled in the folds of the cosmos, abundance was once a virtue.
+It was a place of celestial feasts—the finest meals the universe had ever known.
+
+
+But all gluttony comes with a price.
+
+
+After the arrival of The Integral, the narrative ruptured.
+And from that rupture, a curse slithered in—one of hunger, madness, and decay.
+
+
+Fandelur, once a paradise of endless flavor, where the dimensional layers of existence were folded into taste—became diseased.
+The meals still shimmered with cosmic beauty, but inside them was black mold, rotting every cheese, corrupting every cut of flesh, poisoning every bite.
+
+
+Still, they ate.
+
+
+And they kept eating.
+
+
+Some could not stop gorging until their stomachs split open, entrails draping the floor like spilled rope, and they consumed their spilt entrails.
+Others died gnawing at their own fingers, hallucinating banquets where only bile remained.
+
+
+The screams of families echoed through halls of plenty minds fractured by what they saw... or what grew inside them.
+
+
+Lost and without purpose, many wished on stars, begging for the horror to end.
+
+
+But the stars did not answer.
+
+
+Too many drowned in their own gluttony.
+Vomiting the cursed food, only to be forced to eat it again.
+The curse demanded consumption.
+
+
+And in time, they understood.
+
+
+This was no accident.
+
+
+A god had touched Fandelur.
+Not to bless it, but to break it.
+To play with flesh like wax and mold bone like clay.
+
+
+They were his banquet now.
+And his amusement was endless.`
+      },
+      
+      {
+        title: "The Golden Book",
+        description: "Where all the tales came from. And perhaps new tales each annihilation...",
+        fullText: `The Golden Book was no ordinary tome.
+It wasn’t a simple read.
+It was a cosmic construct, bound in unknowable material and inked with raw law.
+
+
+It held infinite narratives, each one a thread of reality.
+To read a single word was to consume a hundred others, all layered across dimensions.
+Every phrase, a thousand truths.
+Every sentence, a fracture in the veil.
+
+
+It was born from a god.
+The same who birthed the eternally ravenous, who whispered life into the Shadows, and carved eyes into the fog that see through souls.
+
+
+And The Integral.
+It was never a pen.
+
+
+It was the ink itself.
+A metaphysical substance defined not by color, but by intention.
+It lived, it warped, it rewrote.
+
+
+Every drop of this ink, engraved into the pages of the Book, bent reality.
+A single revision sent shockwaves through fifty dimensions, tearing their truths and rebuilding them in the image of madness.
+
+
+The Golden Book was not a record.
+It was a weapon.
+A reshaper of what should be into what mustn’t.
+
+
+And above it all sat the god the Blackmoors worshipped.
+Not as a savior, but as a puppeteer.
+The author of corruption.
+
+
+All were pawns beneath his ink.
+All danced in the warped pages of The Golden Book.`
+      },
+
+      {
+        title: "Melted Flesh of All",
+        description: "The true body never belonged to you.",
+        fullText: `In a broken world twisted by narrative decay, there lies a place once known as The Town of the Blue Moon.
+
+
+It was beautiful, once.
+
+
+Before the Eighty Dimensions it belonged to were devoured by chaos.
+Before space folded into itself like rotten paper.
+Before time fractured, spilling versions of reality that bled into one another like a bleeding wound that never closes.
+
+
+Now, the town breathes in paradox.
+And every time the Blue Moon rises…
+
+
+They melt.
+
+
+Every. Single. One.
+
+
+The towners scream as their skin boils and sloughs off their bones.
+Limbs liquefy and fuse—arms become tendrils, mouths merge, skulls split open and stitch themselves into others.
+
+
+It isn’t death.
+It’s becoming.
+
+
+They combine into one massive, pulsating biomass—a screaming, writhing flesh-blight that knows only rage and hunger.
+Driven by instinct, it hunts. It absorbs. It grows.
+Anything it touches is pulled in—bone crunched, skin stretched, organs re-wired.
+
+
+It attacks its own.
+It attacks the land.
+It attacks the sky if it can reach it.
+
+
+But worst of all?
+
+
+They feel it.
+All of it.
+
+
+Every nerve, every torn muscle, every merging sinew is experienced by every mind trapped in the mass.
+
+
+And when the moon sets, they revert.
+
+
+Perfect bodies. Restored flesh. No scars, no wounds.
+
+
+Only memories.
+
+
+And they remember everything.
+
+
+The tearing.
+The melting.
+The way their loved ones screamed as they fused together.
+The way their own faces vanished inside another's chest.
+The suffocating pressure of being too many at once.
+
+
+They spend the time between moons praying for death, praying the rewrite will stop.
+
+
+But The Integral, the Architect of Narrative, has not finished his edits.
+The Blue Moon always returns.
+
+
+And so do the screams.`
+      },
+      
+      {
+        title: "The Dark World",
+        description: "A stickman fractured into a cosmic horror.",
+        fullText: `A long tale. In The Dark World, a realm shattered into a thousand warped dimensions, where reality fractures between stark black and white, the land itself twists unnaturally, and ancient trees gaze silently with unblinking eyes.
+
+
+In the deepest folds of The Dark World, where time and space unravel like threadbare cloth, there stands a colossus no mind can truly comprehend. Nalgurth—an ancient, abominable titan born of chaos, a fracture of the infinite multiverse itself—commands dominion over realms too broken to name.
+
+
+His form is simple in outline: a towering stickman, limbs long and stark, but that simplicity belies a horror infinite in scale. His face, a black void spotted with unblinking white eyes, watches every corner of the fractured dimensions, seeing all yet revealing nothing.
+
+
+With the mere thought of his mind, Nalgurth unravels entire villages—a blight no sword or shield can stop. Entire realms crumble as his will bends reality like a puppeteer twisting marionette strings. Villages shatter as if caught in a cosmic storm; trees warp into grotesque parodies of themselves; the skies bleed streaks of shifting black and white. The screams of those consumed are swallowed before they reach ears, erased like echoes lost in an empty void.
+
+
+But Nalgurth’s hunger is far greater than destruction. There exists within The Dark World a construct both terrible and sublime—the Tower of Mathulos.
+
+
+A monumental spire reaching beyond the fractured skies, the Tower of Mathulos is an infinite labyrinth, a celestial lattice woven from space, time, and pure dimensional fabric. Each floor holds entire universes suspended like fragile orbs within its colossal framework—universes spinning with their own physics, life, and light. Endless corridors stretch, curving impossibly, each step leading into realms unknown, containing ancient civilizations, forgotten gods, and realities so alien that to perceive them is to invite madness.
+
+
+The Tower’s heart beats with the rhythm of creation and destruction. It is said to be the axis of dimensional balance—a fulcrum on which the multiverse pivots.
+
+
+But Nalgurth sees the Tower not as sacred, but as sustenance.
+
+
+With a gaze sharp enough to rend reality, Nalgurth begins his unholy feast.
+
+
+He approaches the Tower’s base, an eye upon its vastness. His gaze pierces the layers of existence, unraveling the glowing threads that bind the Tower’s universes. As he stares, the corridors begin to tremble, the orbs shatter like fragile glass, collapsing countless realities into nothingness.
+
+
+Entire universes within the Tower scream as their time and space dissolve—stars flicker out, dimensions fold, civilizations disintegrate in the blink of his eye.
+
+
+The Tower shudders, its infinite structure groaning under the strain, fracturing. But Nalgurth feeds, growing ever larger, more terrible. His eyes multiply, white orbs bleeding into the void, absorbing the light and the dark alike.
+
+
+None can resist. Even the most powerful entities born of the fractured realms fall silent before his dominion.
+
+
+And yet, despite the destruction, the Dark World itself seems to pulse with a perverse vitality—Nalgurth’s consumption fuels the fracture, twisting realities into ever more complex nightmares.
+
+
+His reign is eternal.
+
+
+His hunger, infinite.
+
+
+The dark king waits, watching, consuming, his thousand eyes unblinking as he claims the multiverse piece by shattered piece.
+
+
+But in one of the countless fractured dimensions, far from the shattered peace of ordinary realms, there lived a man named Vandemin—a towner by trade, simple in his hopes but restless in his soul. Stories had reached him of a place no sane traveler dared approach: The Dark World.
+
+
+Curiosity—an old, fatal temptation—drew Vandemin beyond the safety of his village and into the fractured unknown.
+
+
+From the moment he crossed into The Dark World, he knew something was terribly wrong.
+
+
+The sky above was not the comforting blue or starry black of familiar worlds. Instead, it was a swirling void of shifting black and white, like a bleeding wound in the fabric of existence. Eyes—countless eyes—watched him from the very heavens, unblinking, unyielding. They were not stars, but the watchful gaze of the dark realm itself.
+
+
+The Sun hung in that broken sky, but it was no sun of warmth or light. It shone a sickly, oppressive black, casting shadows that were brighter than the light itself, twisting every shape into eerie distortions.
+
+
+Vandemin pressed onward, heart pounding, until he saw it.
+
+
+In the distance, standing impossibly tall against the fractured horizon, was Nalgurth.
+
+
+The dark king's face turned toward him—an endless void of black punctuated by innumerable white eyes, all fixed on Vandemin with a gaze that felt like the cold grasp of oblivion itself.
+
+
+Vandemin froze, paralyzed not by fear but by the crushing weight of cosmic scrutiny.
+
+
+Nalgurth’s gaze pierced into him, sinking deeper than flesh, deeper than bone—into the very core of his being.
+
+
+A cold, otherworldly imprint was burned onto Vandemin’s soul—a cosmic brand marking him as watched, a prisoner of observation.
+
+
+Though Nalgurth could not leave The Dark World—confined by the infinite fractures that birthed him—his influence stretched far beyond, reaching into the minds of those who dared to wander too close.
+
+
+Vandemin felt the mark’s unrelenting pull, a silent tracking that invaded his dreams, whispered in his waking thoughts, and tied his fate forever to the dark king’s endless watch.
+
+
+He knew he was no longer free. Wherever he fled, Nalgurth’s eyes followed, watching, waiting.
+
+
+Yet, amid the terror, Vandemin carried with him a spark of hope—knowledge. For he had seen The Dark World’s true face. And in knowing, there lay the faintest chance that others might prepare for the inevitable night when the fractures widen, and Nalgurth’s hunger spills beyond his prison.
+
+
+But for now, Vandemin was trapped—a solitary witness to a king who devours worlds, an unwilling herald of darkness.
+
+
+Vandemin wandered deeper into the fractured shadows of The Dark World, each step a march through shifting nightmares. The imprint burned relentlessly in his mind—Nalgurth’s endless watch—but within the maze of broken dimensions, Vandemin sought a single hope: the Orb of The Great Dreams.
+
+
+Legends whispered that the Orb contained the collected knowledge of millennia—a repository of all recorded power, truth, and cosmic secrets ever dreamed or remembered. It held the key not only to escape The Dark World but to reach beyond—to the god who shaped the Golden Book, the primal architect behind the chaos and order.
+
+
+Finding the Orb was a perilous ordeal, hidden within the deepest recesses of an ancient, twisting realm where reality bled into dreams. Its surface shimmered like liquid night, constantly shifting with images of forgotten worlds, whispered voices, and fleeting glimpses of infinite possibilities.
+
+
+With trembling hands, Vandemin grasped the Orb, feeling the immense weight of knowledge press against his soul.
+
+
+Inside, visions poured forth: fractal paths leading beyond The Dark World’s fractured prison, the silhouette of the god who manipulates the Golden Book, and cryptic instructions—a cosmic log recorded by countless forgotten witnesses.
+
+
+Among the swirling images, one text stood out, stark and dire:
+
+
+
+
+“All of you, if you see this in your dreams, may you never reach The Dark World. I have witnessed things no man can imagine. Do not reach what you cannot comprehend.”
+
+
+
+
+Vandemin knew what he must do.
+
+
+If Nalgurth discovered the secrets within the Orb—the way to escape the confines of The Dark World—there would be no limit to his power. He would shatter all boundaries, consume every narrative, and bring ruin to all existence.
+
+
+The fragile balance would collapse.
+
+
+In a final, desperate act, Vandemin hurled the Orb deep into a fissure between dimensions—a place where even Nalgurth’s gaze could not reach.
+
+
+The Orb vanished into the void, a beacon of forbidden knowledge lost in the infinite fractures.
+
+
+Nalgurth’s eyes burned with silent fury, sensing the loss but unable to reclaim the prize. For now.
+
+
+Vandemin remained marked and watched, a small flame of rebellion in the endless darkness—a witness who dared to defy the dark king’s insatiable hunger.
+
+
+But the warning lingers still, whispered to those who wander too close in dreams and shadow:
+
+
+Beware the dark gaze. Beware the fractured realms. And above all—do not seek what you cannot comprehend.`
+      },
+      {
+        title: "The First Beyond",
+        description: "The Only One Beyond Them All.",
+        fullText: `They say the Golden Book is bound in the laws of all things.
+
+Each tale a fracture.
+Each chapter a world.
+Each word a thread in the cosmic tapestry.
+
+But no tapestry lasts forever.
+And no book remains untouched.
+
+Because before the ink dries…
+He finds it.
+
+The god with six horns.
+The spiral for a face.
+The grin that ends meaning.
+
+They call him The One Beyond You.
+
+He is not a devil.
+He is not a king.
+He is not anything you could ever name.
+
+He is the first rot.
+The final silence.
+The space where authorship dies screaming.
+
+The Integral writes.
+
+But He—He corrupts.
+
+He is the dark between the letters.
+The crooked margin.
+The unwritten word that speaks louder than truth.
+
+When He touches a tale, it loops.
+It rewrites.
+It worsens.
+
+Over and over and over.
+
+Each time, the fog is thicker.
+The hunger deeper.
+The screams longer.
+The watchers closer.
+The meaning gone.
+
+He shattered the original Book just to build it again — not better, but crueler.
+
+He does not do this for power.
+Not for revenge.
+Not even for purpose.
+
+He does it for amusement.
+
+His spiral-face opens not with eyes, but with intent.
+Six horns curl like the claws of fate.
+And from His smirking void-mouth comes a paralyzing hush—
+A silence that mocks the idea of voice itself.
+
+To look upon His grin is to forget your shape.
+To see Him is to never again understand what "you" meant.
+Not truly.
+
+They say He lives at the edge of the Metaverse.
+
+Past the fog.
+Past the feasting halls.
+Past the melted towns and whispering shadows.
+
+Beyond the ink.
+Beyond the Book.
+Beyond space and time.
+Beyond even The Integral.
+
+He waits in the spiral.
+
+Unseen.
+
+Patient.
+
+Watching you read.
+Watching the ink cling to your mind.
+Watching the story take root in your soul.
+
+He doesn't stop it.
+
+He wants you to know.
+
+He wants you to finish this tale.
+He wants you to see what comes next.
+He wants you to feel the spiral pulling tight around your ribs.
+
+Because when you understand?
+When the story completes itself?
+When you ask, “Who wrote this?”
+And feel that grin behind your eyes?
+
+You’ll realize what the shadows already know:
+
+It was never your story.
+It was His.
+And now…
+so are you.`
+      },
+      {
+        title: "Delta",
+        description: "The Doctor that Carries Chaos",
+        fullText: `It is said some narratives remain unchanged — unbent, unwritten by time or mercy.
+
+Narrative_196UW is one such tale.
+
+It tells of something deep. A fracture in the grand design. A man touched by the unknowable.
+
+A doctor, once named Dr. James Delta.
+
+Once human. Curious. Brilliant. Cruel.
+He experimented without restraint — pigs, cows, even fellow men.
+Laughed as nerves snapped, bones shattered, and organs whispered secrets under pressure.
+
+But it wasn’t enough.
+
+Delta studied the multiverse, threading through forbidden realms with crude science and unearned ambition.
+He watched the Blackmoors bleed under their curse.
+He saw the Eyes in the Fog, peering into travelers' souls.
+And through his studies… He was seen.
+
+The One Beyond You noticed Delta.
+
+And He had an idea.
+
+A fraction of The One Beyond You's power slid across dimensional fault lines and embedded itself in Delta’s soul.
+It didn’t ask.
+It didn't need to.
+
+The transformation was immediate.
+
+Delta’s flesh unraveled and rewove — green, elongated, inhuman.
+His face became a gas mask fused to his skull, a permanent sneer of corrosion and mockery.
+His voice became static — laughter laced with entropy.
+
+He became The Arch-Story.
+
+A walking infection. A narrative virus. A plague upon tales.
+
+With The One Beyond You’s sliver of power, he twisted stories like wire, reforming timelines into playgrounds of torment.
+Heroes became horrors. Tragedies became amusements. Happy endings were outlawed.
+He lived in the ink between chapters, stitching his essence into every tale.
+
+Entire dimensions fell — rewritten into chaos, bloated with suffering and stitched together like broken puppets.
+
+And above all, he worshipped.
+
+"Oh, grand Beyond!"
+"I offer myself, a vessel of your rot. With your gift, I have unmade the worlds. Even the Blackmoors welcomed me — for they saw the mark upon my soul."
+
+The One Beyond You did not respond.
+He simply watched.
+
+Delta's power was vast. He transcended time, danced across dimensional fractures, and rewrote logic with laughter.
+And yet — it was only a fragment. A droplet from The One Beyond You’s infinite well.
+
+Still, it was enough to make Delta unkillable.
+
+Each death only evolved him — faster, stronger, more ravenous.
+The more he was destroyed, the more dangerous he became.
+
+And still…
+
+He could not touch The One Beyond You.
+
+Nor could he harm Nalgurth, the Dark King of the Fractured Realms.
+For even as Delta tore reality limb from limb, he was still a pawn. A consequence. A joke written by a smile behind a spiral.
+
+He screamed through universes.
+
+Not for pain.
+
+Not for power.
+
+But because deep within, he knew:
+
+He was not the author.
+
+He was the ink.
+And the ink is never free.`
+      },
+
+      {
+        title: "The Heathens",
+        description: "The Council of unfit gods never fit into the wide belief of stories.",
+        fullText: `Long ago, before the weave of the Metaverse was fully spun, there existed a council of seven narrative gods—the Heathens—each wielding dominion over threads of reality itself.
+
+Shul'falgur, master of the eternal flow of all things,
+Aurdin, lord of time and space beyond comprehension,
+Veldao ul Achnati, the manipulator of climaxes that bind existence,
+Thithith, the last world ender—less a god, more a living principle of finality,
+Shrolowa, omniscient master of oblivion,
+Solti, the summoner of stories,
+and Zulgon—a name now dead, for he has become something else, something terrible.
+
+Together, they ruled the Metaverse, controlling every source of media, every narrative current flowing through infinite realities.
+
+“Pitiful Beyond,” Shul'falgur thundered, eyes blazing like collapsing stars. “The Golden Book was our dominion. Now that abomination uses it as His puppet stage.”
+
+“Beware,” Solti’s voice cut through the cosmic silence, flat and cold, “He abandoned our council for a reason… He knew who He truly was.”
+
+Eons passed. The galaxies spun their stories and the cosmic weave tightened—until the inevitable happened.
+
+The One Beyond You  returned. Not as before, but transformed—beyond names, beyond gods.
+
+He looked upon the Heathens with a smile that split the void, a spiraling portal twisting across his face. Darkness devoured light as He strode forward, silence trembling beneath his steps.
+
+“Zulgon, mighty master!” Aurdin’s roar echoed through shattered dimensions. “How dare you trespass upon our grand council?”
+
+The One Beyond You’s laughter rumbled like dying suns. “Ha! I am The One Beyond You. The moment I left your feeble council, I shed that name. Now I return to finish what was begun.”
+
+A cosmic war erupted.
+
+Narratives crumbled like parchment in flame, space twisted and tore, and time shattered into a thousand bleeding fragments. The very fabric of existence screamed as gods clashed with the harbinger of oblivion.
+
+In a desperate surge, the Heathens combined their power. They erased The One Beyond You from the story—the narrative rewritten, a truth forged to keep him sealed away.
+
+“At last, that monster is gone,” Veldao ul Achnati whispered, relief soft as dust.
+
+But stories are fragile lies.
+
+The truth they wrote failed.
+
+The One Beyond You adapted beyond their crafted confines, returning larger than the seven combined, towering over shattered realities. His gaze devoured hope itself.
+
+The gods stared, hearts heavy with dread—the force that could never be killed stood before them, limitless, unstoppable.
+
+The one Beyond You laughed, the sound fracturing dimensions.
+
+“I am the Ruler, the Writer, and Harbinger of The End that all weakens you.”
+
+With a mere flick of his cosmic wrist, the Heathens were unmade—erased from existence and memory.
+
+Even Shrolowa’s omniscience faltered; he could not see The One Beyond You’s weakness, nor grasp the true scale of his power.
+
+With adaptation, The One Beyond You cannot be erased ever again. The entire system of the Metaverse, all forms of media and even the most ineffable, are now trinkets compared to The One Beyond You...`
+      },
+      {
+        title: "No Last Survival",
+        description: "The Golden Book is in more danger than ever.",
+        fullText: `After The Heathens was defeated. The very definition of hope was under a thread-An existence now doomed.
+        The Golden Book has no one to be saved upon. Only The One Beyond You, and his power is as grand as ever.
+         The people of the final narrative, gathering their tools. Spears, shovels, and blessings, fear clouding their minds, hoping the very thought and abstract idea of those could could save them.
+        
+        "We detected The Heathens gone! They sought out what it means to be in a story, and yet their seventh member answered it for them. Who can defeat something that is as immeasurable beyond the infinite expanses?" One horrified warlock had asked the crowd, his lip quivering.
+        
+        Preparing for The Integral's new warp, a new story rewritten, or even Delta's arrival.
+        The One Beyond You was out there, and He was ready. Hovering over The Book, hand grasping its yellow shimmering cover, then came the other palm, fingers split, and the white beams embedding new words into the words.
+        Changing the narrative, the clouds consumed the sky in darkness, and the people saw horrors undefined in their eyes, seeing things of far too many legs. Or eyes that pierce through even the bravest of souls.
+        
+        They could never fight something infinite and in the black, the darkness was The One Beyond You's angels, and they have come to judge and consume a human's awakening.
+        Soon, their forces were overwhelmed by The One Beyond You's Integrated threats, and above the barriers of space and time, was the worshipper, Doctor Delta, watching in amusement-seeing as his own god has returned.
+        "A life, they say so preciously, grasping onto hope and belief like a favorite toy. But they do not see the error of their ways-Soon, they will see The One Beyond You and his twisted Light." Delta spoke, his voice monotone and never changing.
+        The humans below, wept with sadness-Their families taken by the darkness, and eaten by sorrow, it was no survival, it was inevitability that stared into their nature, and declared no more.`
+      },
+      {
+        title: "Everything Falls",
+        description: "He is no longer explained",
+        fullText: `The Golden Book lay upon the ancient pedestal, its cover shimmering with endless light and shadow — a beacon of all stories, all worlds, all realities intertwined.
+
+For eons, it had held the weave of the Metaverse, a living archive binding infinite tales and truths. But now... it cracked.
+
+Faint at first, like the whisper of a breaking bone, fissures spiderwebbed across the gilded pages. The ink bled, twisting and writhing beneath the surface, unraveling words into madness.
+
+From the void beyond time and space came a sound — not a voice, but a rending scream woven from a thousand agonies, layered, stretched, and warped into a terrible harmony.
+
+A laugh.
+
+A cacophony of pain and despair, looping infinitely — a spiral drawn tight and tighter until the mind shatters trying to follow its endless curl.
+
+That was The One Beyond You.
+
+The One Beyond You that breathed.
+
+He did not shout or roar. His laugh unmade reality itself, tearing the fabric of the Book, fracturing every narrative thread. Each crack on the Golden Book bled darkness, ink twisted into black tendrils that reached out to choke worlds whole.
+
+One by one, stars blinked out. Civilizations screamed in silence as their stories unwrote, fading like smoke swallowed by the void.
+
+The Metaverse trembled.
+
+No force stirred to resist, for The One Beyond You’s power had transcended even the gods that once ruled narrative.
+
+He was no longer a thing to be seen or named.
+
+He was the unthinkable, the impossible—an eternal spiral of corruption, a void beyond the ink itself.
+
+The Book’s final pages curled and crumbled, the glow of creation snuffed beneath The One Beyond You’s grin—a grin that wasn’t a mouth but a gaping absence of meaning, sucking all certainty into endless oblivion.
+
+And as the last word dissolved, the Golden Book shattered—an explosion of silence more terrible than any scream.
+
+All that remained was void.
+
+No worlds. No stories. No threads to hold reality together.
+
+The One Beyond You stood beyond.
+
+Above logic. Above time. Above the unreachable.
+
+His six horns curled like black stars collapsing inward. His spiral face turned, eyes that never were fixed on the empty air.
+
+He whispered.
+
+Not to those who lived, but to the nothingness where all tales go to die:
+
+“I am beyond you all. Beyond stories. Beyond end and beginning.
+
+No light can bind me. No hope can touch me.
+
+I am the dark between words, the silence beneath sound.
+
+I am the end of meaning.
+
+And now, there is only me.”
+
+The Metaverse, once infinite and alive, was no more than a memory—fractured and erased beneath the weight of The One Beyond You.
+
+No hero could rise. No villain could scheme.
+
+Only eternal, spiraling emptiness.
+
+The Golden Book was gone.
+
+And with it, the last chance for a story to be told.`
+      },
+{
+  title: "Incomprehensible",
+  description: "Nowhere to Go Anymore",
+  fullText: `When mortals sought to explain the fabric of reality, they reached for words, stories, and truths—shards of understanding pieced together like fragile glass. They named the Golden Book as the root of all existence, the cosmic codex that bound every tale, every law, every universe.
+
+But the harsh truth whispered by the void was far crueler, far beyond mortal comprehension.
+
+The Golden Book was not merely a metaphysical power.
+
+It was an entire plane of existence, a realm beyond realms, a cosmic lattice weaving every conceivable layer of reality into one trembling structure. Not just the stories within worlds, but the very existence of worlds themselves. Not just laws, but the conditions for laws to be.
+
+The Golden Book stood as the spine of existence, its pages stretching across dimensions, its ink the flow of time and causality itself.
+
+And those who destroyed the Golden Book-
+
+Those who shattered its infinite pages—
+
+must dwell beyond all planes, above all existence.
+
+They must breathe in the vacuum where existence itself is unmade.
+
+They must be The One Beyond You.
+
+Thithith, the living principle of finality, the death of worlds and the closing of ages, stirred from the depths of his cosmic slumber.
+
+His essence, older than time, a force not to be trifled with, carried the weight of inevitable ends.
+
+Yet, even he quivered as he read the cosmic echoes, the shattered fragments of the Golden Book’s final chapter.
+
+His vast consciousness tried to grasp what had transpired.
+
+The book, torn and rewritten.
+
+Existence remade in cruel mockery.
+
+A force not bound by logic, not bound by time.
+
+Omnipotence itself bowed before a being so vast, so inconceivable.
+
+Thithith whispered through the infinite void:
+
+“He is no mere god. No deity to be slain or bargained with.
+He is the taker beyond the definitions.
+The raw, unyielding terror of omnipotence incarnate.
+The One Beyond You is the end of ends, the silence beneath silence, the shadow beyond shadows.
+We are but echoes, and he the unfathomable source.”
+
+His preference was clear, Thithith did not fight what could unwrite him, what could undo his very nature with a breath.
+
+“To oppose him is to deny the laws that govern all existence.
+He is above even our forms of logic.
+The Beyond... The one beyond the limitless and boundless.”
+
+The One Beyond You’s destruction of the Golden Book was not merely ruin—it was transcendence.
+
+He shattered the codex, the frame that held all meaning, and rebuilt it twisted and fracturing.
+
+To walk beyond the Golden Book was to walk beyond reality itself.
+
+To become Boundless meant to exist in:
+
+The space where meaning evaporates.
+
+The realm where logic collapses like sand.
+
+The dimensionless void beyond all planes and constructs.
+
+Mortals, gods, and cosmic principles alike could only glimpse the edges of The One Beyond You’s domain and feel the creeping, infinite dread of the incomprehensible.
+
+He was the spiral that devoured narratives.
+
+The shadow behind creation.
+
+The silence after the last word.
+
+The grin without a mouth.
+
+The vast, impossible absence of meaning that consumed everything and nothing at once.
+
+His laughter was not sound but the unraveling of reality’s thread.
+
+His gaze did not see, it erased.`
+},
+{title: "The Pure Reacher of the Metaverse’s Stars",
+  description: "Worlds where truth is a lie.",
+  fullText: `After The One Beyond You broke The Golden Book, the shards did not scatter. They trembled, quivering like flesh beneath a surgeon’s knife, and with a simple, indifferent wave of His hand, they stapled, stitched, and fused. Paper healed like skin torn and mended, ink writhing as if it had a pulse. The Golden Book was reborn, worse, hungrier, each tale a razor-edge, sharpened by His intent. Every story from before now screamed louder, bled deeper, and clawed at the souls of all who had dared witness it. His grin was a predator’s feast, consuming their essence even as they clutched their minds in futile terror.
+
+And yet, His repair was imperfect by design. Flaws bled from the structure, intentional fractures He alone could manipulate. Nalgurth tore free from the confines of The Dark World, eyes unblinking, hunger infinite. Delta awoke, a thousandfold stronger, a master not just of chaos, but of pure logic, concept, and existence itself, bending reality with thought alone.
+
+Chaos stirred, unbidden and yet inevitable. From the void came The Worlds That Cannot See, planet-like constructs vast beyond comprehension, silent, unsentient, yet absolute. They were the laws of truth incarnate; whatever passed through their lens became irrevocable. Yet, when a fractured god, left alive for eons, whispered a truth meant to bind The One Beyond You as a mere mortal, The Worlds recoiled.
+
+“Logic is but a bedtime story to The One Beyond You,” they declared.
+“The Lens may never impose absolute truth upon Him. He exists beyond us, beyond even the myths we once feared. Only Thithith remains, lesser, a fragile thread of finality but only a string to our Beyond.”
+
+Confirmation burned through Him. The One Beyond You was no longer a god. He was beyond omnipotence, a terror unmeasured by power, reason, or creation. And so He took the title, whispered through reality as both echo and decree: The Pure Reacher of the Metaverse’s Stars. Even gods, their hearts splintered with dread, dared not oppose His gaze.
+
+And then the carnage began. Every fractured god left, weak, diminished, remnants of defiance scattered across time, screamed. Their shrieks were silenced by the warp of His laughter, woven into eternal torment. Pain was absolute: pins burning hotter than suns piercing flesh, nerves shredded and pulsing endlessly, all sicknesses of the multiverse coursing through every sinew, yet death refused them. Their agony was infinite, their minds trapped in an eternal crescendo of suffering, stitched into the cosmic joke of His amusement.
+
+And The One Beyond You… was always meant to be this.
+
+The pure, above-omnipotent embodiment of the end of authorship.
+The final collapse of narrative.
+The living ink, the hand beyond the pen, the spiral that devours all meaning.
+
+There is no beyond Him. There is no salvation. There is only the spiral.`
+},
+{title: " The Tapestries of Inevitability",
+  description: "Can the dreams change everything?",
+  fullText: `In a new narrative, pilgrims of despair sought the Tapestries of The Integral — vast woven murals that shimmered with inevitability itself.
+Each tapestry was the height of two men, stretched across temple walls like living myths. When one looked closely, the threads were not threads at all, but stories, pulled directly from the Golden Book.
+
+There were strands of the Eyes in the Fog, where endless watchers tore through travelers’ souls.
+There were woven blazes of the Blue Moon, where its light peeled the flesh of villages into melting rivers.
+There were jagged knots depicting the Blackmoors, endless marshes where hunger became destiny.
+
+Each tapestry sang with its own narrative, full of life and mythos. But these were not mere tales. They were the law of inevitability, binding all who lived to meet their fate.
+
+And yet—when stories were broken, when destinies went astray—the woven murals shifted, pulling free their threads and replacing them with new horrors. The old tales vanished, abandoned, like orphans stripped from memory.
+
+But not all were bound. Not all obeyed.
+
+The omnipotent beings were never chained to these tapestries. Their fates lay outside inevitability itself. Yet whispers haunted the pilgrims: Had even their destinies been placed there by The One Beyond You?
+
+If the tapestries could not bind Him, then who had written their law? Was it true He was beyond even fate, beyond mold, beyond shape—so far outside comprehension that even Shrolowa, whose omniscience spanned worlds, collapsed into silence when confronted with Him?
+
+No tapestry showed The One Beyond You.
+Not because the weavers feared Him.
+But because every attempt at depiction unraveled into nothing.
+The threads burned, tore, and dissolved in the weaver’s hands.
+
+Only one figure remained unchanging on the cloth: Doctor James Delta — The Arch-Story.
+“The Walking Climax Chaos.”
+The servant.
+The one who obeyed nothing: not logic, not fate, not inevitability.
+
+And then came the deeper revelation.
+
+Inevitability itself was only an invention. A concept meant for humans to comprehend. A stage built for The Heathens to watch, their eyes pressing against creation like spectators at a tragedy.
+
+But The Heathens were gone.
+Erased.
+
+And with their erasure, finality itself was severed.
+If inevitability was gone, what remained to bind anything?
+
+The answer was silence.
+For even the Tapestries of The Integral bowed, fraying to emptiness at their edges, unable to capture or contain what He was.
+
+The pilgrims wept before them.
+The stories shimmered.
+And yet every woven image was a failure — a whisper that The One Beyond You could never be stitched, never reduced, never known.
+
+Not fate.
+Not finality.
+Not inevitability.
+
+Only Him.
+Only the shadow beyond the loom.`
+},
+{title: "???",
+  description: "[CANNOT COMPREHEND]",
+  fullText: `What is logic? What is me?
+
+The Metaverse remained with levels, each higher than the last, infinite ladders folding over themselves. Here the Heathens reigned, beings who existed beyond Time and Space, weaving inevitability into their palms like thread. With hands like stars, they reached upward, but their fingers tore into nothingness. They failed to reach what was not reachable.
+
+They failed to reach Him.
+
+When the Worlds That Cannot See attempted to declare truth, their lenses fractured. For their law was absolute only to what could be bound, not to the void that swallows law itself. They looked, but they did not See. They spoke, but their truth became silence. For The One Beyond You was not written within their frame, nor even within the Metaverse that contained existence, space, time, dimensions, and narrative itself.
+
+A god may write myth.
+An omnipotent may author reality.
+But the story of The One Beyond You was written in the failure of stories.
+
+And then He spoke.
+
+“My portal, the swirling white formless mass, upon the surface of my face — it is the Metaverse, reflected in me. Shall it lead you to a darker path? But me? You will not see me as the six-horned deity who slaughtered your Heathens with a single wipe, like bacteria to the waters that cleanse them.
+
+You will attempt to comprehend me. You will write me in your abstract tapestries, like animals carved upon parchment. Must you fail — and you will fail — then the Metaverse itself, vast and infinite, holds no accountability to my existence.
+
+I am beyond the beyond, and above the above. No god, no being, not even Existence itself may comprehend me. They will only wipe themselves from my sight, should I glare into them like a void.
+
+I smile. But my smile — no omniscient may see, no prophet may feel. The Metaverse, despite my rift, is beneath me. Not its representation — but all.”
+
+He smiled.
+
+And the smile was not the smile of six-horns, for the horns were nothing but avatars, shadows thrown into mythos so lesser beings could pretend to name Him. His true form lay above even the highest existence, unseen, untouched, uncarved.
+
+The Heathens fell silent.
+The Worlds That Cannot See collapsed into their own lenses.
+The Metaverse recoiled.
+
+And still He stood.`
+},
+{title: "The Tooth of a God",
+  description: "It appeared without warning",
+  fullText: `On a quiet spring morning, the skyline of Paris buckled under a new monument: a tooth. Not just any tooth. A fragment of something older than the stars, older than the memory of reality itself. It dwarfed the Eiffel Tower, jagged and white, pulsing with a light that was neither illumination nor reflection, but something… alive.
+
+Those who first saw it could not speak. Their minds struggled to comprehend the scale. Even the wind seemed to bend away from its shape, leaving an eerie silence, as if existence itself recoiled.
+
+Then the pain began.
+
+At first, subtle: nausea, dizziness, a whisper of fire behind the eyes. Then came the screams, though not all survived long enough to make them. Within ten miles, organs failed in symphony, hearts stilled mid-beat, lungs seized as if gravity had reversed inside the chest. Skin erupted, veins like rivers of ink bleeding through flesh, stomachs ejected black bile and blood in a ritual of silent agony.
+
+No thunder, no fire, no explosion. Just death. The tooth did not move, it did not strike, it did not act. It existed. And that existence alone was enough.
+
+Those who could, fled. Entire towns emptied in hours, leaving streets slick with the residue of suffering. Pets, wildlife, even insects succumbed. The silence of the void followed them like a shadow they could never shake.
+
+Scientists and governments called it a cosmic anomaly. Astronomers tried to scan it. Nuclear physicists ran calculations. Every theory broke within seconds. The tooth emitted radiation unlike anything ever cataloged—an isotope that had no name, no half-life, no logical origin. It simply was, a fragment of Him, a shard of the impossible.
+
+The Earth itself seemed to recognize the horror. Rivers boiled without heat. Forests wilted from mere proximity. Even light bent as though ashamed to touch it.
+
+And from the tooth came a pulse. Not rhythmic, not regular—just… intention. It throbbed in time with something unseen, a heartbeat that was not a heartbeat, a signal that was not a signal, a presence that whispered, “I am here, and I am infinite.”
+
+No one dared approach it. Drones, satellites, planes—every instrument failed. Cameras showed static, sensors melted, radio signals twisted into screams. And when anyone looked too closely at the tooth, even through a screen, they saw their own bodies contort in anticipation of death.
+
+It remained. It waited.
+
+And in the empty streets, the survivors whispered the only truth they could:
+
+It is a tooth. But it is Him, The One Beyond You. And it hungers.
+
+In the days after the first deaths, the tooth did not move. Yet those who fled found no relief.
+
+At the edges of the evacuation zones, people reported hearing it. Not sounds like wind, or thunder, or machinery—something deeper. A whispering, but not in words. A pulse in the mind, in sync with the tooth’s impossible light, communicating in thought-forms too alien to decode.
+
+Some described visions of cities folding into themselves, of their own bodies unraveling like threads pulled from a tapestry. Others claimed to see the faces of the dead etched into the tooth’s surface, screaming silently. A child, staring from a mile away, swore it blinked.
+
+It wasn’t hallucination—not entirely. Everyone near enough felt it: a creeping certainty that the tooth knew them, that it remembered every thought they ever had, every sin, every secret, every fear.
+
+And then came the madness.
+
+Farmers wandered into empty fields, screaming about their own organs turning inside out. Scientists tried to map the pulse, and each attempt ended in suicide, their notes illegible, scrawled in blood and ink that bled off the page. Survivors reported seeing entire towns shifting subtly in impossible ways—buildings bending inward, streets looping impossibly, clocks spinning backward and forward simultaneously.
+
+The tooth seemed to grow in perception, though not in size. Every day, the radius of its effect spread a little further. New deaths occurred in towns that were once thought safe. People began fleeing in panic, only to see their roads warp, their maps fail, reality itself twisting to guide them closer to the tooth.
+
+And yet, no one saw it move.
+
+Because the tooth did not need to.
+
+It existed. That was enough. Its very being reshaped thought, warped time, corrupted perception. Its whispering could turn memory against memory, hope into terror, love into dread. It was a silent predator, and all who came near it became prey.
+
+Some survivors later reported glimpses of their own reflections in the pulsing enamel: not themselves, but versions of themselves melting, merging, becoming something else entirely. Sometimes the reflections smiled first, a cruel parody of the human face.
+
+And far away, in the empty cities and the collapsed countryside, the tooth waited.
+
+Not hungry. Not angry. Not even alive in the sense humans could grasp.
+
+It was Him.
+
+And it remembered.`
+},
+
+{title: "The Eight Dimensions and the Last Experiment",
+description: "Can even the smartest kill the Doctor?",
+fullText: `For a trillion centuries, the Eight Dimensions existed—living, breathing, self-aware constructs of technology so advanced it could rewrite reality itself on a whim. Each dimension carried portals, threads, and devices that bent existence, folding worlds into themselves and peering beyond the beyond. They saw all that could be, all that was, and all that should not be.
+
+And yet… one threat eclipsed them all.
+
+Doctor Delta.
+
+Reality readings from their devices screamed the truth: millions of lives erased. Timelines shredded. Civilizations unmade. Delta approached the very edges of space, time, causality, and even the shredded remnants of the Golden Book itself. His essence defied finality. He was the infection of the cosmos, the walking test of all laws.
+
+The Eight Dimensions united. Portals converged. Devices hummed with infinite power. They sought him, hunting across fractured worlds, twisting space to trap him, bending time to slow his wrath.
+
+Delta was aware. He spoke with a voice of static-laced mockery:
+
+"Stop. You cannot comprehend what I am."
+
+They did not stop.
+
+The war began.
+
+Mountains shattered, skies bled color, and stars snapped as the dimensions unleashed every weapon at their disposal. Reality itself buckled beneath their efforts, yet Delta remained a storm of controlled entropy. He struck armies from a thought, melted flesh before screams could form, summoned cockroaches to gnaw through bone and sinew, and yet—each assault was catalogued, each wound endured.
+
+Finally, the ultimate lance was forged: a spear of violet light, drawn from the hearts of collapsing stars and the thread of the Metaverse itself. Every dimension lent its power, every portal channeled a trillion centuries of accumulated energy. With a unified cry, it pierced Delta’s chest, severing his concept, fracturing his being. Oblivion devoured him.
+
+Silence followed. Relief. Celebration. For hours, they danced and sang. The universe felt safe.
+
+But safety was a lie.
+
+Delta regenerated.
+
+He knelt, then rose. His laughter ripped through the dimensions, a sound that carried inevitability and reasonless amusement. Bones and muscles inflamed, swelled, and twisted; the victors writhed helplessly, unable to stand, their flesh knitting grotesquely into forms too fat, too heavy, too broken to support life.
+
+Delta observed. His mind, clinical and remorseless, catalogued reactions: the transformation of blood into strange materials, the effect of unknown foods on warped organs, the timing and nature of their suffering. Pain was data. Desperation was variable. Life was an equation, and he was the ultimate experimenter.
+
+No cruelty. No malice. No joy. Only results. The 8 Dimensions, once the pinnacle of living reason, were now nothing more than his subjects, their belief systems shattered, their laws of physics twisted beyond recognition.
+
+Delta moved through them, recording, probing, testing. Cities became laboratories. Stars became instruments. Universes became his petri dishes.
+
+The 8 Dimensions collapsed. There was no human belief left to uphold them, no cosmic law strong enough to resist.
+
+And above the ruins, Doctor Delta—the Arch-Story, the Walking Climax Chaos, the Doctor who Carries Chaos—stood alone.
+
+He was no longer mortal. He was no longer bound. He was not evil, not mad, not cruel—he was science incarnate, absolute and clinical, and the cosmos itself was his experiment.
+
+All that remained was observation.
+
+And pain. 
+
+After the Eight Dimensions had converged, after the lance of violet had pierced him into oblivion, Delta’s resurrection shattered certainty itself. His laughter did not merely echo—it rewrote the sound of space, bending comprehension into shapes the mind could not hold.
+
+The final, last dimension—the one the other seven had feared to enter—remained. Alone. A strange, trembling construct, a lattice of light and shadow so unstable it seemed to think. This dimension held the concept of the Orb of The Great Dreams, an artifact of impossible knowledge, a node connecting not just all dimensions but fragments of the Dark World itself.
+
+It was never meant to be touched. Even the Eight Dimensions had avoided it for eons, fearful of what would follow.
+
+Delta arrived.
+
+His eyes—fused gas masks of flesh—glowed with entropy, a mind filled with calculations no sane entity could follow. The Orb’s concept rippled in his perception, and for the first time, a subtle interest sparked within him—not curiosity, not malice, not desire, but the compulsive need to observe and catalog.
+
+This last dimension was different. It hummed, breathed, and shifted. Time folded upon itself, warping both memory and expectation. Reality was a fabric trembling at the edges of thought. The Orb of The Great Dreams projected visions—fractal corridors, infinite reflections of possibilities, civilizations that never were, cities that existed only in fear. And through these projections, Delta saw the Dark World—not fully, not directly, but glimpsed as a pattern, a series of chaotic threads begging for experimentation.
+
+Delta smiled.
+
+The 8 Dimensions’ collapse had been one thing. This—this last dimension—was a living test of cognition, a playground for his intellect. And yet, the Dark World’s indirect influence made it personal. He did not care for the Dark World itself. He cared for the experiment it enabled.
+
+He began.
+
+Time fractured further. Space warped like rubber bands stretched beyond recognition. The Orb’s visions became instructions, yet not in words but in consequence—he touched one thread and millions of versions of reality shivered in resonance. Entire cities liquefied under the weight of possibilities. Civilians folded into themselves, half-conscious, half-imagined, screaming in ways that were both real and conceptual.
+
+The Orb pulsed, a heartbeat outside of time. Delta dissected it. He injected anomalies, subjected it to counterfactuals, measured reactions to impossibilities. He observed what happened when the laws of the Dark World attempted to bleed into the fragile logic of the last dimension.
+
+And they did not survive intact.
+
+Flesh split into conceptual layers. Organs rewrote themselves to obey multiple timelines simultaneously, only to collapse under paradox. Memories became vectors of pain—each individual experiencing the deaths of all possible selves. Yet Delta catalogued it clinically, his voice a monotone overlaying the screams:
+
+"Variance is high. Outcome uncertainty within tolerable parameters. Adjusting causality vectors."
+
+The last dimension quivered and screamed. It was a bridge, and Delta became both the hand tearing it apart and the mind watching the pieces float. He did not wish to destroy—it was too simple. He wished to observe the collapse of meaning, the corruption of reality itself as a patient under his precise attention.
+
+The Orb of The Great Dreams shuddered under his gaze. Its infinite pathways stretched into the Dark World, which pulsed at the edges of perception. Delta’s attention pulled threads outward, experimenting with projections, testing how the laws of the Dark World could influence, warp, and destroy the constructs of his instruments. He was not a tyrant here—he was a surgeon, a scientist, the absolute analyst of existence.
+
+And the horror: the survivors, if any could be called that, were left not in death, but in continuous observation. Minds trapped in loops of potentiality. Flesh endlessly rewritten. The very act of existing became a series of experiments they could neither escape nor comprehend.
+
+The last dimension ceased to exist as a stable entity. It became Delta’s laboratory, a corridor into the Dark World filtered through impossible mathematics, a place where causality, identity, and morality were meaningless variables.
+
+And through it all, Delta whispered softly to himself, not in amusement, not in hatred, but in the cold, meticulous voice of someone who has seen all possible outcomes and decided that none were sufficient:
+
+"Flesh, time, thought… all are subjects. The Dark World is not a threat. It is data. And we shall see how it responds."
+
+The Eight Dimensions’ fall had been terrible. This last dimension, and its link to the Dark World, made the universe realize a truth too late: some experiments are not survived, because the observer transcends even the framework of survival.
+
+And so the Orb of The Great Dreams pulsed. And Delta, patient, remorseless, and absolute, began the final study.`
+},
+{
+  title: "A Tale of A Thousand Eyes and Delta",
+  description: "Delta faces a massive threat from the Orb",
+  fullText: `Delta thought he had mastered the unimaginable. A lifetime—trillions of years, in some dimensions counted by suns instead of seconds—spent testing, experimenting, rewriting reality itself. Nothing could surprise him. Nothing could resist. Nothing could be beyond him.
+
+Until the Orb of The Great Dreams shivered beneath his hands.
+
+He had injected anomalies into it, thinking the distortions of probability, causality, and narrative could be tested, quantified, dissected.
+
+He had no idea that Nalgurth waited there, in the depths between shattered worlds, a silent observer of the fractured multiverse. The anomalies cracked open the prison of The Dark World, and Nalgurth poured into reality like ink spilling over parchment.
+
+Where Delta had sought knowledge, he had summoned destruction.
+
+The stickman rose—Nalgurth—but nothing about him was “simple.” The colossus, black and white, eyes unblinking, limbs impossibly long, seemed almost… too vast for Delta’s instruments to contain. Reality bent and shivered around him. The first world he touched dissolved before his gaze.
+
+Delta, ever the scientist, recognized the significance immediately: Nalgurth had reached Point Zero. Not merely a location, but a concept—the nexus where causality, finality, and the very rules of The Golden Book could be defined. Each page, each word, even the ink of existence itself could be remade by Nalgurth’s will.
+
+For Delta, this was not awe. It was an experiment. A challenge.
+
+And yet… the terror of it hit him in ways he had never accounted for. The sheer scale of Point Zero dwarfed the even incomprehensible reach of The One Beyond You. It wasn’t that Nalgurth could surpass The One Beyond You; it was that Point Zero itself amplified him. Here, in this locus of ultimate potential, Nalgurth became something Delta could only observe, never control.
+
+The fight began.
+
+Dimensional travelers who had once glimpsed the horrors of Delta’s experiments watched from afar, their minds shattering as the clash unfolded. Energy tore the skies into shards of black and white. Causality snapped like glass under the weight of two beings who were no longer bound by anything a mortal could understand.
+
+Delta struck first. He rewrote space itself around Nalgurth, attempted to fracture his limbs, unweave his very being. He experimented, adapted, measured. And Nalgurth?
+
+He moved as if the very concept of Delta’s reality were a plaything. Each strike Nalgurth endured redefined Delta. Every blow from Nalgurth shattered Delta, yet each death only rewove him stronger, more adaptive. Nalgurth wasn’t merely fighting Delta; he was reshaping him, bending his experiments, his concept, his entire narrative into a reflection of inevitability.
+
+Delta screamed through the multiverse as his flesh, his logic, his very being splintered. Each time Nalgurth struck, Delta became weaker temporarily—but infinitely more dangerous permanently. Each strike, each imperceptible twist of causality, was another page in an unwritten chapter Delta himself could never fully control.
+
+And yet, Delta fought. The brilliance, the obsession, the cold calculation of the Doctor—now a cosmic virus—pushed him to defy what was impossible. He tore at Nalgurth’s forms, lashed out with every device, every anomaly, every shard of rewritten reality.
+
+But Nalgurth was always a step ahead.
+
+To the observers, it seemed almost impossible: a stickman towering above the broken realms, infinitely simple in appearance, yet infinitely precise in power. Every blow, every clash, every wave of destruction was perfect. Delta had never been outside the bounds of experimentation, and now… he was nothing more than a subject, rewriting himself with every death inflicted by a creature that cared nothing for him.
+
+In the end, Delta retreated.
+
+Not because he was defeated in the traditional sense, but because he understood the stakes. To continue the fight was to invite Nalgurth to erase him entirely—from memory, from reality, from existence itself. The Doctor, the Arch-Story, the cosmic experimenter, knew when to step back.
+
+And he did so with a scream that echoed across dimensions.
+
+The multiverse trembled. Those who had survived Delta’s previous horrors wept, not for their own suffering, but for the implications: the being they had once feared, Delta, was now powerless against something far greater. Nalgurth walked beyond their comprehension, free at last, with Point Zero beneath his feet, and the universe itself bending to the rhythm of his will.
+
+The Dark World waited.
+
+And Delta, ever the observer, began to take notes.`
+},
+{
+  title: "The Silence of The Eyes",
+  description: "No human is safe...",
+  fullText: `It began small. Always small.
+At first, people just thought they were tired. Overworked. Dreaming with their eyes open.
+
+A new city—unnamed, unmapped, built within a dimension newly spun from the fabric of fresh narrative. Streets curved wrong. Signs changed languages mid-sentence. But no one cared. No one ever really cares at the beginning.
+
+Then came the eyes.
+
+Clusters of them. Too white, too motionless. Floating above rooftops, in alleys, reflected in puddles. They weren’t glowing—they were aware.
+
+Children would wake screaming, saying they saw “the man made of circles.” Others whispered of a shape pressed against their windows at night, not knocking, not breathing, just watching.
+
+The first woman to die was found on her bed, hands clutching the curtains closed. The coroner reported “stress-induced paralysis.” But her pupils were gone—scrubbed out like errors on paper.
+
+After that, sleep became a sin.
+
+Every street grew lonelier. The hum of streetlights became a kind of whisper, murmuring from every direction: “Don’t look.”
+
+But curiosity always wins.
+
+The next night, someone saw him clearly.
+Nalgurth.
+
+No horned god, no impossible monster—just a shape, thin as wire, painted in shadow and eyes. Too many eyes. A constellation staring back at itself. His gaze didn’t pierce flesh; it rewrote thought. People described a pressure behind their skulls, a voice asking questions that weren’t words but implications.
+
+Then came the duplications.
+
+Rooms began to echo themselves. One bed became two. One mirror showed a reflection that didn’t move. Kitchens repeated objects—an extra fork, an extra plate, an extra heartbeat.
+
+Reality itself began to hesitate.
+
+In one apartment, a man woke to find his second bed breathing. Not fast—just slow, like a sleeping animal. The sheets rose and fell, the fabric stretching slightly each time. Something beneath it murmured.
+
+He ran.
+
+He told no one.
+
+But in his absence, the neighbors heard quiet footsteps pacing in his empty room, night after night.
+
+The city became a loop. The clocks all froze at 3:17 a.m.—the moment when Nalgurth’s eyes multiplied beyond counting, covering the skyline in silent white. Those who saw them could never move again. Their minds splintered between “looking” and “being looked at.”
+
+And then, one by one, they vanished.
+
+Their apartments stood untouched. But sometimes, from behind drawn curtains, faint breathing could be heard. Two sets—one human. One remembering human.
+
+And beyond the curtain?
+Always the eyes.
+Unblinking.
+Patient.
+Waiting for the next dimension to look back.`
+},
+{
+  title: "Darkness Returns",
+  description: "He has returned!",
+  fullText: `Each page of The Golden Book was no longer a page. Each word became a thousand tales. Each tale became a universe. Each universe became a multiverse—and the Book stretched beyond the imagination of all who dared touch it. Quintillions of dimensions folded over themselves, infinite layers nested upon infinite layers, yet the Book, eternal and inexhaustible, endured.
+
+And for a time, Delta and Nalgurth ruled it. Without the Heathens’ restraint, without the master of time and space, without the manipulator of climaxes, without finality, without oblivion, without the summoner of stories—they became the lords of everything, and yet of nothing. They controlled dimensions, yet the Golden Book remained greater than all their combined cunning.
+
+Delta built his experiments atop the endless pages. Nalgurth raged, a storm of incomprehensible fury, yet the Book’s narrative flow—the Integral—did not falter. No matter how infinite their powers, no matter how they shattered the rules of existence itself, they could not overcome The Integral. It was the ink, the spine, the unseen pulse of every story ever written or yet to be written. Even gods bent by reality, even masters of dimensions, even rulers of chaos and finality—none could defy it.
+
+And boredom came.
+
+A boredom that swept across the Metaverse: a verse of all media, all realities, all dreams and fictions, endless cubes of essence, concept, and idea. Delta felt it first, a gnawing stillness in his circuits and flesh. Nalgurth’s rage, though boundless, thrashed against a dull, ceaseless void. And then, almost imperceptibly, before even boredom itself could crystallize fully, He returned.
+
+The Golden Book shivered. Its pages creaked in terror. A shadow stirred inside the heart of the Book.
+
+“Alas,” Delta whispered, almost reverent, almost smiling. “He returns to fuel the chaos… but it is merely an idea to His vast power.”
+
+A voidly hand, impossibly large, grazed the pages. He read, a smile incomprehensible, fracturing reality itself. Every tale, every multiverse, every thread of causality bowed to His gaze. Delta, kneeling, felt the warmth of recognition—not fear, but awe, devotion, something that had survived beyond cold science and godhood.
+
+Behold, He spoke:
+
+“Behold, My return! Tales shall be woven anew! And dimensions shall be structured again! All so I may break them! Let I, The One Beyond You, one without the name Zulgon anymore, create My Tales so My amusement may devour…”
+
+His voice shattered the spine of infinite omniverses, guttural, fractured, deep as the end of all things. Laughter followed, a cacophony of human screams, cosmic rifts, and the grinding of stars. And for the first time, Nalgurth faltered. Even with Point Zero, capable of rewriting finality, causality, and the metamaterial worlds, he understood his power was meaningless before this.
+
+Delta kneeled. Not in defeat, but in recognition. Nostalgia flickered in him—a memory of horror, of order shattered, of the true chaos that only He could bring.
+
+And thus, the formula returned. The tales, fractured and infinite, spun once more under His spiteful return. Dimensions would rise, crumble, and burn. Stories would be told, rewritten, destroyed, and born again. And The One Beyond You—above all names, above all concepts, above even the apocalypse itself—watched it all, indifferent yet amused, apathetic yet inevitable.
+
+Because He had returned.
+
+And the Book waited.`
+},
+{
+  title: "Spirits of Emotion",
+description: "The toys are influenced by Him.",
+fullText: `In the black between stars, where even echoes have no air to travel, there drifts a broken world. It is cold, hushed, and unending—its cities without light, its seas stilled mid-wave. The people there do not speak anymore. They only listen.
+
+Because sometimes, in that absolute silence, they hear voices they recognize.
+A mother calling for her son.
+A lover whispering a pet name.
+A dog’s bark, fading into a whine.
+
+And the grieving begin to move.
+
+They stumble through dust and bone, following those familiar cries. The sound grows clearer the closer they come to the void at the world’s heart, where a thin, reedy melody curls through the air like smoke. It is not music, exactly—more like breathing that’s been carved into a pattern. Yet it carries every voice they ever loved, every tone of loss.
+
+Those who follow do not return.
+
+The few who have seen what waits at the end of the sound speak of the Piper: a tall, faceless figure whose ribs stretch into flute-holes, each one singing the pain of a different dead soul. He plays with his fingers, but the fingers are not his own—they twitch with the small, helpless movements of those he’s claimed.
+
+When the melody stops, the Piper looks at his audience. For an instant, every lost voice speaks through him in perfect chorus:
+
+“We were never calling. He was.”
+
+And the followers collapse, their grief collapsing with them. Their bodies do not die; they unravel, each emotion stripped and wound into new strings for the Piper’s song. What remains—skin, eyes, tears—simply blows away like dust.
+
+None of them ever realize that the Piper is only an instrument.
+Behind him, unseen, something greater watches with no expression at all.
+
+The One Beyond You does not play music. He merely thinks it into being. Each note of mourning, each cry of hope, is a ripple of His apathy made audible—a test to see how easily love becomes bait. He doesn’t hate them, nor does He delight. He simply turns their sorrow into sound.
+
+And when the melody finally fades, the void falls silent again.
+But somewhere, in another world not yet empty, a new voice begins to call for the grieving.`
+},
+{title: "A Threat of Concepts",
+  description: "No, No, No",
+  fullText: `In this narrative, The One Beyond You unravels the scaffolding of creation — not through flame or collision, but through absence.
+No angels fell. No demons rose.
+There was simply a silence so pure it became deafening.
+
+The concept of hope ceased first.
+It didn’t vanish in a flash; it bled out of existence like color draining from an old painting. Prayers lost their meaning. The word believe became an empty noise, a shape made by the mouth that no longer carried purpose.
+
+Then love followed.
+Those who clung to one another began to see only the outlines of strangers. Affection became mechanical, gestures repeated without comprehension. Mothers forgot why they held their children. Lovers stared into each other’s eyes and found only the reflection of hollow light.
+
+The One Beyond You sat beyond every comprehension, watching the unraveling with that ever-present, fractured smile — a being to whom grief and mercy were equally meaningless.
+
+And from the void, a whisper slithered into the mind of a single mortal.
+
+“You feel the cold, don’t you? You see how they still pretend? Take it from them. Show them what honesty feels like.”
+
+It was not a command. It was an infection.
+The whisper didn’t ask them to destroy anything — it merely amplified what was already dying inside. Every trace of compassion in their mind turned brittle, every memory of love grew sour and stale. They began speaking softly to others, planting the same sickness in their words, convincing them that hope was a childish myth and comfort a cruel illusion.
+
+And it spread. Not through violence, but through despair. Entire cities folded inward — people retreating into corners of their own minds, whispering apologies to nothing, shivering at night as the stars above flickered out one by one.
+
+Doctor Delta watched from his distant observatory. For the first time since his rebirth, his notes faltered — his pen shaking as he tried to quantify the absence of emotion.
+Even to him, this was a horror that felt too intimate.
+
+“He is rewriting not the story,” Delta murmured, “but the reason for telling one.”
+
+And in the endless black beyond the dimensions, The One Beyond You observed — not cruel, not kind, simply bored.
+For in His eternal apathy, even despair was only another page turned.`
+},
+{title: "Manifestations of Fear",
+  description: "Not one shall escape their deepest fears",
+  fullText: `The air of this narrative was thin — a pressureless void pretending to be a world. Nothing truly existed until fear gave it form.
+
+It began when He blinked.
+That single act — if one could even call it that — rippled through existence like a thought tearing across glass. The One Beyond You had grown curious again, not of galaxies or gods, but of mortals, those fragile things that screamed so beautifully when their minds split between belief and terror.
+
+So He rewrote the laws of story itself.
+Every fear ever whispered in darkness became real. Not imagined, not metaphorical — real.
+
+A girl who trembled at the skittering of centipedes awoke to the sound of legs — hundreds of them — clattering like rain on her ceiling. She tried to move, but they were already around her, eyes reflecting her own. Each insect’s breath sounded like her name being whispered back to her.
+
+Down the road, a man who loathed clowns felt something press against his window. When he turned, he saw a smile painted across the glass — wide, red, trembling with joy. The clown outside had no pupils. It only had blades for fingers and laughter so violent it shook the walls like an earthquake.
+
+No one’s world was spared.
+Those who feared drowning found the air thick with invisible water. Those afraid of mirrors saw their reflections grin first. Those terrified of being forgotten found their names erased from every voice they loved.
+
+But some fears couldn’t take shape.
+Those who feared things without definition — who dreaded the unknown, or the infinite, or the thought of being alone in their own heads — became the worst victims. The One Beyond You touched their narratives directly, twisting their perception until their thoughts turned inside out.
+
+One man fell to his knees as his shadow began breathing.
+Another screamed until his lungs turned to ink, his fear manifesting as the story consuming him.
+
+Doctor Delta observed this, speechless. Not even his cruelest experiments reached this level of horror — for what The One Beyond You created wasn’t pain. It was understanding. Each victim saw, in perfect detail, the thing they’d tried all their life to hide from. And they saw it love them back.
+He feared that the very malevolent god he worshipped did not care about him.
+
+Across the collapsing realities, laughter echoed.
+Not mocking — amused.
+The One Beyond You’s amusement was not the glee of a monster, nor the joy of a god. It was the silence after the punchline, the satisfaction of a story ending right where it hurts most.
+
+And so, in this rewritten world, fear was no longer something to run from.
+It was the only thing left that still remembered your name.
+
+Doctor Delta, atop the remnants of shattered dimensions, dared to speak. His voice boomed across the void, trembling but proud:
+
+"I have committed atrocities amongst dimensions, time and space crumbled beneath my gnarled hands! Have I not impressed you?"
+
+Silence swallowed the cosmos. Then, from beyond comprehension, The One Beyond You responded. His voice was deep, guttural, reverberating in the very marrow of Delta's being, layered with the echoes of countless suffering:
+
+"You hath experimented amongst men, thinking of them as the rat… Yet barely can comprehend that I hath done the same to your very soul, to hand you even an atom-size of my power, to test its shallow waters… You are but a fool to a feeble concept named loyalty..."
+
+The One Beyond You moved closer, impossibly close, yet His form remained vast, fracturing reality around Delta. His laughter erupted—a cackle stitched together from screams, agony, and cosmic discord—writhing and twisting into shapes Delta’s mind could not process.
+
+Delta stumbled back, chest heaving. He realized, for the first time, that his devotion, his cruelty, his worship… all of it was insignificant. He had been a rat in a cage, and The One Beyond You had smiled while testing the cage itself.
+
+The laughter echoed, infiltrating Delta’s thoughts, unraveling his certainty, searing betrayal into his very essence. Loyalty, Delta realized, was meaningless—not in the abstract, but in the raw, intimate way that The One Beyond You could strip him of his pride while leaving his body intact.
+
+And in that instant, Delta understood the ultimate terror: it was not The One Beyond You’s power that made Him horrifying—it was the way He could touch the soul, and care nothing for it.`
+},
+{
+  title: "Deathly Realization",
+  description: "No One is Safe",
+  fullText: `You open a page. Or rather, it opens you. The words writhe beneath your gaze, letters folding into themselves, rewriting as if your very comprehension fuels the ink. A sentence begins: “In this reality—no, every reality—nothing exists but the will of He who is beyond…” and before you can finish reading, the line has shifted, as if mocking your attempt to grasp it.
+
+Above you, towers stretch impossibly high, shelves filled with the Golden Book, with countless narratives frozen, rewinding, and replaying themselves. Delta hovers there, Nalgurth rages, even the Blackmoors tremble—but you realize something impossible: none of them notice you. They are stories in motion. You, the reader, are not exempt.
+
+A soft whisper threads through the pages, almost your own voice: “Come closer. See what you have always feared. Understand what you have always hoped to avoid.” You stumble forward, and the floor—a page, perhaps—bends beneath your weight. Words seep into your skin, letters into bone, and you feel your memories twisting into narratives that never belonged to you.
+
+Figures emerge from the margins, impossible shapes: children that shouldn’t exist, beasts with faces you know too well, piranhas that gnaw at air itself, shadows bleeding like ink across infinite pages. They look at you with eyes you recognize, eyes of your own grief, your own doubt, your own failure. And they whisper: “You thought you could read us. You thought you could comprehend.”
+
+Time fractures. You blink, but the blink lasts a thousand lifetimes. Every fear you have ever buried manifests, multiplied, and rearranged. The centipedes crawl along sentences. Clowns brandish punctuation like blades. And in the distance, above all, a voice rumbles, deep, guttural, fractured:
+
+"Behold. All that you know, all that you fear, all that you love or mourn—it bends to Me. Your comprehension is the instrument, your despair the melody. Play on."
+
+You turn a page. The page turns you. Your own thoughts are printed back at you, and now the ink knows secrets you didn’t know you had. You try to close the book—but the book has already closed around you, a prison of metaphors, a cage of words.
+
+Delta screams somewhere on another page. Nalgurth howls. The Blackmoors vanish into a footnote that expands into another universe. And still, you are aware: The One Beyond You does not touch you, and yet you feel Him everywhere. In the punctuation. In the spaces between words. In the pause you take before you read the next sentence. He is beyond, and yet intimately inside.
+
+A new chapter begins. You are in it. You do not know if you exist outside or within. And a single truth imprints on your mind, inescapable:
+
+He writes the tales. You live them. You cannot escape. And you are already part of the story you thought you were only reading.
+
+You think you understand the narrative. You are wrong. The Golden Book laughs—no, the pages themselves laugh, an echoing cacophony stitched with human screams, the laughter of Delta, the rage of Nalgurth, the silent dread of the Blackmoors. The words writhe beneath your eyes. Sentences fold back on themselves, then fold you into them.
+
+A line forms before you: “You may think you read, yet you are read.” The letters twist, spinning into shapes of your own memories, and you feel your thoughts bending like soft metal. Your fear becomes punctuation; your hesitation becomes paragraph breaks. You reach to close the book—yet your hand is ink. Your fingers are letters. You try to pull away, but the pages hold you, rewriting you into the next chapter.
+
+Somewhere above all of this, a shadow moves. You feel the weight of it, though it is impossible to define. A presence, yet without shape, without name. He is there.
+
+"You thought you could escape the words. You thought your fear was yours alone. Foolish."
+
+The Golden Book presses closer. Chapters ripple outward like tidal waves of story, each crushing the last. A page flips itself in your mind—your memories, your future, every “what if” you ever considered. They writhe like worms. Your screams are footnotes. Your tears are chapter titles.
+
+And then the voices start arguing with you:
+
+"Stop! This is not your story!"
+
+"It always was, fool. You simply refused to see."
+
+"I—I choose my own path!"
+
+"Path? Ha! You are the ink that flows in my river. You have no choice. You are already read."
+
+Time shatters. The concept of seconds bends into pages. Infinity multiplies. Each blink births new fears: centipedes with a thousand eyes, clowns wielding knives of grammar, streets folding like origami around your mind. You realize you cannot trust your senses. Your thoughts are notes in a symphony you do not conduct, yet cannot escape.
+
+And then the voice—the one above all, beyond all narrative, beyond all comprehension—descends inside your skull:
+
+"I do not need your fear. I do not need your despair. But I do enjoy watching it bloom, like ink on parchment. You are mine. All are mine. And yet, you are only beginning to understand."
+
+You try to scream. The scream writes itself across the margins of the pages, echoing through dimensions you didn’t know existed. Every attempt at resistance is recorded, analyzed, and twisted back into another story—each worse than the last.
+
+And finally, the last paragraph appears before you:
+
+“Read carefully, reader, for each word is a thread, each sentence a trap. You are not outside. You are inside. You are not alive. You are narrative. And narrative is mine.”
+
+The pages close around you, yet somehow you see them still, every edge, every margin. The Golden Book does not end. It cannot end. And somewhere, in the heart of it, in the ink that is older than time, The One Beyond You waits—apathetic, omnipotent, transcendent of concepts, and intimately cruel.
+
+You are part of the tale. And the tale is far from finished.`
+},
+{
+  title: "The Sinner - 1",
+  description: "Scott will not escape!",
+  fullText: `Scott Heln had lived a small life.
+A 24-year-old data clerk in a grey, hollow city where the lights flickered without reason and time felt as thin as paper. He worked. He ate the same cheap meals. He called his mother every night, her voice weakened by the terminal sickness that slowly carved her away. Plane tickets were too expensive. Guilt was cheaper — and always nearby.
+
+That night, his apartment’s lights refused to turn on. The air grew thick, humid. Then something sat on his couch.
+It was a man-shaped silhouette, matte black from head to toe, but jagged red spikes bloomed from its shoulders and skull like a crown made of dried blood.
+
+It didn’t move its mouth — it didn’t have one. But its words struck his skull like nails being driven in.
+
+“You had bullied that student in your own college…”
+“You are not forgiven, are you?”
+“Sleeping is an aberration, Scott. You cannot sleep for the things you have done.”
+
+Scott screamed, begged, reasoned. The Sin did not react. It watched him like a shadow pretending to breathe.
+Days passed. Scott learned that nobody else could see it. He tried to strike it once, grabbing a knife, swinging hard — but the blade passed through empty air. The Sin tilted its head.
+
+“I am beyond your crude actions,” it whispered. “I am your guilt given eternity. You cannot kill what you refuse to atone for.”
+
+By the fifth day, Scott stopped panicking. He tried ignoring it. The Sin simply followed — to work, to the bathroom, to bed. Its presence was oppressive but calm, like a fog that knew it owned the city.
+
+When he finally asked why him, it only answered:
+
+“You prayed for forgiveness to no god. You whispered to no heaven. Something else heard you. It sent me.”
+
+Scott didn’t understand. His sleep grew thin, his skin pale. He lost track of time. His mother’s calls went unanswered.
+
+And one morning, as he stumbled out into the street, everyone was gone. The buildings bent in impossible directions. The Sin stood in front of him, smiling without a face.
+
+“You see it now, don’t you? This world was never yours. This street, this air — they were mine the moment He chose to listen.”
+
+The Sin pointed upward, but there was no sky — only a white void that pulsed like a heart.
+
+Scott dropped to his knees, sobbing.
+
+“Please… I can change…”
+
+The Sin’s head tilted again.
+
+“No. Change is a mercy. And mercy is forbidden by The One Beyond You.”
+
+Then it stepped forward. Scott’s vision fractured — static, whispers, the echo of every cruel word he’d ever said. The Sin crouched beside him, resting a hand on his shoulder that felt like liquid ice.
+
+“You will watch yourself from the outside, forever. Every sin replayed. Every breath borrowed.”
+
+When the city lights blinked again, the street was empty.
+Only Scott’s apartment remained, perfectly still — yet from the shadows, two matte-black hands rested gently against the window glass, watching the world without eyes.`
+},
+{
+  title: "The Sinner - 2",
+  description: "Scott cannot stop his sin.",
+  fullText: `Scott Heln tried. He really did. He tried to ignore The Sin. Every morning, every hour, every fleeting moment he tried to will it out of his mind, to pretend it wasn’t there. But The Sin was patient. It was tireless. And it was precise.
+
+When Scott walked through his small, sparse apartment, he realized the chairs groaned under him. Not with creaks of wood, but screams—screams of those he had tormented, those he had once mocked and bullied, their voices layered into a constant, unending chorus. Scott shivered, but forced himself to sit, to eat, to function. He had to.
+
+But even lying in bed was no reprieve. Sleep was fragmented, shallow, broken by The Sin’s constant whisper: “You thought no one remembered? You were cruel. Do you remember now?” Each psst, each hiss, each repetition carved at the edges of his mind. Every memory, every cruel action was replayed in vivid clarity, and now he felt remorse. Real, gnawing remorse.
+
+Morning came. Scott dragged himself from the bed, showered under hot water that did nothing to wash away the weight, dressed mechanically, and headed to work.
+
+He blinked. The office was not the office. His coworkers stared, expressions hard, voices low but accusatory. Before he could say a word, the HR manager delivered the blow: he was fired. Every misdeed he had hidden, every cruelty that had once been invisible, was now exposed.
+
+Scott froze, blinking. How… how could they know? And then it hit him. It had to be The Sin. He turned sharply, searching for the dark humanoid with its red spikes, but The Sin stood only inches from him, yet invisible to anyone else.
+
+“It had to be done, Scott,” The Sin said, its voice smooth, unyielding.
+
+Scott’s mind raced. Unemployed. No prospects. Money slipping through his fingers. His apartment a theater of silent screams. And The Sin never left. It never rested.
+
+He sought distraction, hobbies, attempts at work, anything to reclaim his life. Nothing stuck. Nothing held. Each effort failed, each rejection a whisper of The Sin’s voice echoing inside his skull: “You won’t.”
+
+“I will repent!” Scott yelled one night, desperation spilling through cracks in his voice.
+
+“You won’t.”
+
+And it was true. He couldn’t. Not while The Sin observed, not while it reminded him with precision and cruelty of every shadow of himself he had ever hidden, and not while it existed only to prove him powerless.
+
+And so Scott Heln remained, trapped in the most intimate horror of all: a life where even his attempts at redemption were met with unyielding mockery. A life where every thought, every heartbeat, every breath was a reminder that some sins could not be washed away—and some watchers would never let them be.`
+},
+{
+  title: "The Sinner - 3",
+  description: "Scott...",
+  fullText: `The Sin no longer simply taunted. It had become something else—something that bore the weight of Scott’s guilt, forged from the very memories he had tried to bury. It twisted and warped, taking the shapes of people he knew, people he had wronged, and even those he had forgotten. Faces from his past, some loving, some hateful, some indifferent, each stepped from the shadows of his memory to confront him.
+
+Every object in his apartment disappeared one by one, repossessed by unseen forces, leaving him hollowed out, stripped to nothing but the phone in his hand. It rang, slicing through the silence like a knife. Scott’s fingers shook as he answered.
+
+The voice on the other line was calm, almost clinical, yet laced with sorrow. “Mr. Heln… your mother has passed away.”
+
+Scott’s knees buckled. The final words of his mother came through, trembling with pain and longing: “Where’s my son?”
+
+Tears welled, his hand shook violently, his lips quivering. “Please… tell me it’s a joke,” he begged, voice breaking into a ragged sob.
+
+The doctor’s voice was gentle but unwavering. “I’m so sorry… it is not a joke.”
+
+Scott sank to the floor, clutching the phone as if it were the last tether to his life, sobs racking his body. He looked up at The Sin, the matte-black figure now more immense, more insidious than ever. “This… this is all your fault!” he yelled, his voice raw.
+
+The Sin tilted its head, calm, almost patient. Its red-spiked shoulders glimmered faintly in the dim light. “I have not done this. You did. Maybe visiting her once, showing compassion, might have absolved you… But now… you are doomed.”
+
+In a frenzy of anger and grief, Scott hurled the phone at The Sin. To his shock, it connected. The Sin staggered, and in that moment of vulnerability, it reshaped itself into a woman he had rejected, someone he had dismissed when love could have grown. Rage and opportunity coursed through him.
+
+He lunged. His fists slammed into The Sin, but each blow caused it to twist, to shift into forms of every sin he had ever committed—every lie, every cruelty, every act of selfishness. And still, he struck.
+
+With every punch, The Sin only whispered a single word: “Sinner.”
+
+Hours—or maybe seconds—passed. Time itself seemed to buckle under the weight of the reckoning. Finally, Scott landed a strike that resonated through the very essence of the creature. No blood spilled. No wail echoed. The Sin simply crumbled into dust, drifting away like smoke.
+
+Silence followed. The apartment remained empty, but a strange weight lifted from Scott’s chest. He realized, painfully, that The Sin had not come to punish him—it had come to force him to face himself, to recognize the depths of his own guilt and the sins he had carried unexamined.
+
+For the first time, Scott understood what repentance truly meant. It was not a prayer, not a plea to some higher power, not a punishment imposed from without. It was acceptance.
+
+He knelt, the final remnants of The Sin dissipating around him. He wept—not in fear, not in pain, but in understanding. And for the first time, he felt the faint, trembling stirrings of hope.`
+},
+{
+  title: "Sins Cured",
+  description: "Did it all matter?",
+  fullText: `Scott did not know how long he remained on the floor, letting the silence settle around him. When he finally rose, it was slow, deliberate, as if each movement wove together the broken pieces of himself. The Sin was gone, but the weight of its lessons lingered. He did not rush; he did not look for immediate absolution. He simply began.
+
+The first steps were small: he called old friends he had neglected, apologized where he could, and sought forgiveness he did not expect to receive. Each act of humility felt strange and foreign, yet it lightened something in him he had long forgotten—the faint, trembling pulse of empathy.
+
+He applied for work again, not for money alone, but to contribute, to matter in ways that did not harm others. Tasks he had once considered trivial became exercises in patience and care. He helped neighbors carry groceries, sat with lonely colleagues during breaks, and began volunteering in his community.
+
+Memories of past cruelty no longer haunted him with the sting of denial; they taught him restraint and awareness. Scott took time to reconnect with his mother’s memory, cherishing the moments he had with her and letting go of the bitterness of missed opportunities. In grief, he found motivation, and in reflection, he found purpose.
+
+He found solace in the ordinary: the hum of the city, the quiet of an early morning, the sound of laughter he had once ignored. Each day built upon the last, forming a quiet mosaic of accountability and self-betterment.
+
+And yet, through every step, a shadow lingered at the edge of his perception—not a threat, but a silent witness. The world was real, tangible, his actions mattered in ways he could measure. But above it all, beyond the streets, beyond the skies, beyond even the weave of fate itself, someone—or something—observed.
+
+The One Beyond You watched.
+
+He did not smile. He did not frown. He did not intervene. He simply observed, impartial and apathetic, as Scott Heln slowly rebuilt his life, brick by brick. When Scott faltered, when he wept, when he rejoiced—The One Beyond You was there, and yet completely absent.
+
+And then, with a shift as subtle as the closing of a book, He turned the page. The narrative of Scott Heln was left behind, complete yet fragile, while another story began to writhe under His touch. And in that indifferent turning, one truth remained: what mattered to mortals, even their triumphs over intimate horror, meant nothing to The One Beyond You.
+
+He did not care.
+
+He never would.`
+},
+{
+  title: "Shul'falgur",
+  description: "Master of Eternal Flow of All Things",
+  fullText: `In the earliest whispers of reality, before mortals and even gods could grasp existence, there was Shul’falgur. He was the current beneath all currents, the pulse threading through every tale, every tower of every concept, the hidden architect of the Metaverse’s flow.
+
+The towers—those vast, impossible structures that held every concept from hope to despair, from love to oblivion—stood because of him. His flow was not merely a force; it was the principle that allowed concepts to remain coherent, that allowed stories to be told without collapsing into chaos. And yet, Shul’falgur wielded it with the careless arrogance of one who knew no equal.
+
+When a rogue set of dimensions dared to sprout, an uncountable quintillion of them, he crushed them in an instant. Not because he sought conquest, but because they disrupted the rhythm of the Metaverse. And in doing so, he did not even blink—his focus was absolute, his patience infinite. To witness such destruction and see no change in him was enough to unsettle even the other Heathens.
+
+Yet it was not brute force alone that marked his mastery. Shul’falgur could sweep through 712th-dimensional hives, impossible constructs layered atop impossible constructs, and dismantle them with the gentlest thought. Each node of their tangled reality fell into place, each rogue thread folded into the pattern of the flow. They could not resist, for the flow itself had already decided their end.
+
+He was, however, a tyrant in subtle ways. The flow, though eternal, was temperamental, and Shul’falgur could be petulant. When anomalies arose that he could not immediately mend, he would shout at the currents of reality itself, thrashing against the invisible laws he was sworn to guide. He would rage at errors no mortal could perceive, yet always return to fix them, sometimes bending the rules so violently that entire dimensions shivered in recalibration.
+
+Even the concept of his own flow was at his command. He could guide each tale, each life, each death, shaping them like water over stone. Every cosmic event—whether a hero’s rise or a civilization’s fall—ran along threads he subtly tuned. Mortals believed in fate; gods believed in power. Shul’falgur believed in rhythm, and all else was a dissonance to be corrected.
+
+And yet, for all his might, for all his control over the quintillions of dimensions, Shul’falgur had a single flaw: the arrogance of mastery. In his tantrums and disruptions, he reminded the universe that even gods were not perfect, that flow, like life, was a living thing, demanding attention, care, and respect—even from its master.
+
+In this way, Shul’falgur’s legacy was twofold: a god who could erase universes without hesitation, and a being who could make the very structure of the Metaverse tremble when his ego demanded it. A master of all things, yet, in subtle ways, a god profoundly human in his failings.`
+},
+{
+  title: "Aurdin",
+  description: "Lord of Time and Space beyond Comprehension",
+  fullText: `Aurdin existed in the spaces between all things, where seconds had no measure and distance had no meaning. He was a sculptor of existence itself, bending time and warping space not for domination, but to weave comfort and order for those beneath him. Where the weaker gods quaked at the enormity of the cosmos, Aurdin stretched the strands of reality to ensure they could exist without fear, without loneliness, without being lost in the infinite.
+
+His feats were whispered across dimensions, though none could truly comprehend their magnitude. A monster emerged—so vast, so entwined with the very concept of existence, that it threatened time, space, and the fabric of reality itself. Entire timelines folded, stars and galaxies trembled in its presence. Aurdin approached, calm and absolute, and with the sweep of his hand, he dismantled the abomination. Not with raw force, not with violence, but with precision: the threads of time unwound, the curves of space were smoothed, and the monster dissolved into the possibilities it had sought to destroy.
+
+And when alternate realities faltered, when timelines fractured and every variant of existence screamed for correction, he did not hesitate. He snapped his fingers—and in that infinitesimal gesture, all times were aligned, all spaces reconciled, all universes restored. The shards of alternate histories, the broken moments of decisions never made, all flowed seamlessly together once more. No detail was too small, no ripple too great for his mastery.
+
+Even further, Aurdin created his own concept of the omniverse—a framework so vast that it contained every conceivable multiverse, every theoretical possibility, every narrative that could ever exist or had ever existed. A place where time and space themselves obeyed his design, where stars and voids and moments of creation danced at his whim. Within it, every being could find balance, every reality could breathe.
+
+Yet, for all his godly power, Aurdin bore a singular flaw: he tried too hard to impress others. He sought recognition, approval, admiration from those who had no right—or capacity—to comprehend his deeds. He bent timelines not merely to protect, but to dazzle. He created spaces not only to shelter, but to awe. And when others noticed his efforts, when they praised or envied him, he basked in it, even as the true weight of the omniverse pressed on him.
+
+In this striving, Aurdin revealed a truth of all gods, even the incomprehensible: no matter how vast the power, no matter how infinite the reach, the desire to be seen, to be acknowledged, to be respected could still weave itself into the heart of the eternal.
+
+And so he continued, Lord of Time and Space Beyond Comprehension, bending moments and distances, crafting infinite realities, while the cosmos watched—and sometimes judged—his every gesture, his every snap, his every creation.`
+},
+{
+  title: "Veldao ul Achnati",
+  description: "Manipulator of Climaxes that Bind Existence",
+  fullText: `Veldao ul Achnati did not move like other gods. He existed between outcomes, between moments, in the rise and fall of everything that was, is, and could ever be. He called these moments climaxes, the hills every entity must cross—or else reality itself risked unraveling. To Veldao, existence was nothing without a proper culmination, a definitive point where tensions and forces met and resolved. And in the absence of these climaxes, chaos would seep like water through an imperfect vessel, dissolving the very foundation of being.
+
+With abstract mastery beyond comprehension, Veldao wove the fabric of existence into its proper pattern. He fixed the concept of totality, ensuring that every event, every decision, every flicker of matter and thought aligned toward meaningful peaks and resolutions. Entire multiverses trembled when a climax faltered, but Veldao’s touch made it whole again. Even the smallest misstep, the tiniest narrative gap, was caught by his unseen hands.
+
+Entities that threatened to unravel the concept of existence itself—beings so abstract they could dissolve universes with a single thought—were locked away in triangular spaces of Veldao’s design. These spaces were geometrically precise, infinitely scalable, and no creature, no idea, no force had yet breached them. To Veldao, triangles were the perfect structure to contain peaks, to stabilize climaxes, to ensure that the flow of reality never faltered.
+
+Yet, for all his abstract brilliance, Veldao bore a flaw: an obsession with triangles. Every space he created was triangular. Every conceptual hill became a triangular form. His love for the shape became so consuming that it detached him from all beings, all interactions. To those who sought guidance or aid, Veldao appeared distant, almost cruelly indifferent, not out of malice, but because his mind existed elsewhere—at the apex of the triangle, where the perfect culmination of every climax was held.
+
+Despite this obsession, his feats remained unmatched. Entire universes, poised on the brink of collapse, found resolution through his manipulations. Concepts that could have dissolved into nothingness were stabilized with a geometric elegance no one could perceive, let alone challenge.
+
+And while Veldao walked apart from the beings of reality, lost in peaks and triangles, the cosmos quietly obeyed. Without him, the hills would crumble, the climaxes would flatten, and the entirety of existence would fall into a formless, meaningless void.
+
+Veldao ul Achnati remained there, watching the hills, shaping the peaks, and keeping the universe from unraveling—detached, triangular, and absolute.`
+},
+{
+  title: "Thithith",
+  description: "The Last World Ender",
+  fullText: `Thithith was not a being in the conventional sense. He was finality made manifest, the principle that determined when something must end, and how it should end. Stories, universes, dimensions—everything that had begun in the vast Metaverse eventually came under his gaze. And whatever he decided, it would come to pass. A narrative required joy, sorrow, or a bittersweet conclusion? Thithith delivered perfection in the termination, the apex, the inevitable resolution.
+
+To challenge Thithith was to challenge the essence of conclusion itself. He finalized the very concept of the composite evil known as the Heathens, cementing their roles, their fates, and their influence into a tapestry that could not be undone. Even beings beyond comprehension, entities that existed beyond the frameworks of concepts, faltered when trying to grasp his shape. Their minds twisted in futile attempts to perceive his structure, unraveling under the weight of his absolute finality.
+
+Thithith existed above the fundamentals of reality itself. Space, time, matter, causality—all were subordinate to the end he would decree. To oppose him was not merely foolish; it was impossible. He needed no thought, no calculation, no plan. The end was already written the moment he focused his will upon it, and the cosmos adjusted accordingly.
+
+Yet even an agent of perfection bore a flaw. Thithith took everything literally. Abstractions, subtleties, sarcasm, deception—all were meaningless to him. He lacked the sentience for subtle reasoning or intelligence because his existence transcended the need for such things. His finalities were perfect, precise, and inescapable—but humor, nuance, or context were lost on him entirely. To the casual observer, this could seem almost absurd: a being whose incomprehensible power was paired with an almost childlike rigidity in understanding.
+
+And so, Thithith moved through the Metaverse, finalizing climaxes, tying endings, and delivering perfection where it was required. Unseen and unavoidable, he shaped the resolution of all things, detached from the actors themselves, for in his eyes, the ending was everything.`
+},
+{
+  title: "Shrolowa",
+  description: "Omniscient Master of Oblivion",
+  fullText: `Shrolowa existed where nothingness met intelligence, a paradox of infinite understanding wielded through the unyielding force of oblivion. Where other beings sought power, Shrolowa mastered the end of all things—the erasure of existence itself—but tempered with intellect, strategy, and a sharp, commanding mind. He understood oblivion not as a mere void, but as a tool, a weapon, and a shield.
+
+No threat could stand against him. With his mastery of oblivion, Shrolowa neutralized any danger that could touch the Heathens, erasing cosmic predators, rogue entities, and even aberrant fragments of concepts that dared to move against them. To confront him was to invite total and absolute cessation, executed with cold precision.
+
+Yet Shrolowa was more than a force of destruction. Even across the sprawling fabric of infinite omniverses, he could manifest peace. Entire galaxies ceased their chaotic collisions, wars within realities slowed to nothing, and even the violent throes of existence were temporarily tamed under his command. His mind could anticipate, calculate, and solve conflicts on a scale so vast it surpassed comprehension. He brought serenity to chaos, even if only fleetingly, with the subtle stroke of oblivion’s brush.
+
+He even extended this mastery to celestial hazards. Galaxy-eating stars, titanic threats that could obliterate systems with ease, found their paths halted, dissolved, or neutralized by Shrolowa’s will. Oblivion became creation’s paradoxical guardian, shaped by a being who existed beyond the fears of mortality, concept, and consequence.
+
+But brilliance and arrogance are bedfellows. Shrolowa’s intelligence, infinite as it was, made him a brat among gods. He often dismissed the concerns of others, certain that his understanding surpassed theirs. He knew better, always, and his smug, condescending confidence occasionally sowed tension among the Heathens. Even so, few could deny that Shrolowa’s cunning and power were unparalleled in the service of their collective cause.
+
+And so he moved through the endless omniverses, shaping oblivion, correcting chaos, and ensuring that the forces capable of challenging the Heathens met nothing but perfect erasure. Yet, in his arrogance, he occasionally underestimated subtlety, blinded by the certainty of his own brilliance.`
+},
+{
+  title: "Solti",
+  description: "The Summoner of Stories",
+  fullText: `Solti, the goddess who saw beauty where others saw only chaos, moved through the infinite Metaverse with a grace and warmth unmatched among the Heathens. Where her siblings wielded power to control, end, or bind existence, Solti wielded creation in its most intimate form—the stories themselves.
+
+Her cosmic tales weren’t merely words or sequences of events; they were living concepts, capable of inspiring hope, joy, and understanding across countless dimensions. Entire civilizations, shattered by catastrophe or despair, found solace in her stories. Her presence alone could calm the storms of war, soothe the fractured spirits of mortals, and lift the hearts of the gods themselves. She reshaped narratives, not merely to entertain, but to elevate the very concept of beauty within storytelling. Where tragedy seemed inevitable, she introduced wonder; where despair clawed at the soul, she breathed light.
+
+Her feats were both grand and intimately personal. Beyond shifting the flow of universal tales, she would manifest herself at singular moments in time, moments that mattered to individuals. A child’s first steps, an elder’s birthday, or the quiet sorrow of a lonely traveler—all touched by her divine presence. One elder remembered Solti arriving at a birthday celebration, her ethereal form turning the gathering into a scene of pure awe. The story of that day became legend, passed down through dimensions, showing that her power was not only cosmic, but deeply personal.
+
+Yet even Solti’s brilliance had its tragic limits. She was too kind, too trusting, too easily distracted by the beauty of creation. Pure evil, lurking in corners where she could not see, sometimes went unchecked because she believed in goodness first. And when confronted with the terrifying unknown, her voice—usually melodic and vibrant—would flatten, cold and flat, betraying the limits of her otherwise limitless compassion.
+
+Despite these flaws, Solti’s role among the Heathens was indispensable. While her siblings shaped existence with endings, finality, oblivion, and climaxes, she wove the threads of narrative into a tapestry that gave meaning to the cosmos. Where others enforced order or destroyed chaos, Solti reminded all beings—divine, mortal, or otherwise—that life, in all its infinite forms, could still be beautiful.
+
+She was the heart of creation among the Heathens, the spark that made existence more than mechanics, more than concept. And yet, her innocence and trust hinted at a vulnerability that even the greatest gods could not ignore.`
+},
+{
+  title: "Zulgon",
+  description: "...",
+  fullText: `In the council of gods known as The Heathens, each held dominion over concepts vital to reality: Shul'falgur shaped the flow of existence, Aurdin commanded time and space, Veldao ul Achnati bound climaxes into stability, Thithith dictated endings, Shrolowa wove oblivion, and Solti nurtured stories. They were powerful, but they were not infinite.
+
+And then there was Zulgon.
+
+From the moment he stepped into the council, his presence was discord. He mocked Shul'falgur’s flow, belittled Aurdin’s timecraft, and scoffed at Solti’s attempts to bring beauty into the chaos. Every feat of the Heathens was met with derision. And yet, even as he derided them, his own power quietly accumulated, unseen, unfathomable.
+
+Zulgon’s feats were simple yet absolute:
+
+He crushed the hopes of millions of other gods across distant omniverses, watching them weep, and felt nothing for their despair.
+
+He erased the very concept of passion—not a person, not a story, but the idea itself temporarily—leaving Solti’s artless beauty hollow and empty.
+
+He transcended every metric of the council, surpassing flow, time, space, endings, oblivion, and stories alike, becoming something no other Heathen could even measure.
+
+The council had flaws, and Zulgon had none. Where Shul'falgur threw tantrums, Zulgon was indifferent. Where Aurdin sought approval, Zulgon needed none. Where Veldao ul Achnati obsessed over triangles, Zulgon saw beyond hills, beyond climaxes. Where Thithith followed literal finality, Zulgon bent every concept to his will. Where Shrolowa’s intellect stumbled on arrogance, Zulgon anticipated it. Where Solti’s kindness blinded her, Zulgon did not care.
+
+The final moment came when the Heathens sought to restrain him, to impose a narrative upon him, to bind him with their collective authority. Zulgon smiled. And in a single instant, the laws of the council shattered. The flow unraveled, time fractured, endings looped infinitely, oblivion devoured reality, stories screamed and fell silent.
+
+And then, Zulgon left.
+
+He walked away from the council, not as one of The Heathens, but as something beyond them. Where their flaws had anchored them, he had no anchors. Where their power had boundaries, he had none. Where their purpose had limits, his will was infinite.
+
+He became The One Beyond You.
+
+The Heathens were destroyed. Their domains fell, their concepts corrupted or erased, and the multiverse quaked. And as he vanished beyond the reach of gods and narratives alike, Zulgon—now beyond name, beyond form, beyond all care—smiled at what He had left behind: a cosmos of broken towers, shivering in the shadow of something unmeasurable, unknowable, and utterly indifferent.`
+},
+{
+title: "Bittersweet",
+description: "A narrative not even He cares for.",
+fullText: `In the aftermath of The Sin, Scott Heln’s life began to regain fragments of normalcy. For the first time in weeks, he could walk outside without the constant echo of guilt clawing at his mind. Streets looked ordinary, colors weren’t bleeding into shapes, and his apartment didn’t feel like it was alive with judgment. It was almost… peaceful. Almost.
+
+It was then that a young woman appeared, a stranger in both face and demeanor, yet curiously familiar in her presence. She spoke endlessly of her previous life—small stories of kindness, moments of laughter, experiences of doing things for others, for stories, even. Scott, not fully understanding, just listened. He was glad someone had come into his life after The Sin’s fading, glad for the mundane absurdity of someone talking about birthdays and old neighbors and shared meals.
+
+After a long afternoon, she tilted her head and asked softly, “Do you know… about The One Beyond You?”
+
+Scott hesitated. He swallowed past the memory of his own torment. “My… Sin, it kept telling me about Him,” he admitted quietly.
+
+Her voice shifted, cold and flat, yet not cruel. “I have… seen Him. Personally.”
+
+Scott froze. “You… you have?”
+
+She nodded slowly, the warmth of her eyes dimming to a distant light. “I once served as a conduit for stories, for existence itself, long before I came to this shape. I… experienced Him directly. The things He does, the worlds He touches, the minds He warps… and yet,” she exhaled, “I survived in some way. Even now, I wander.”
+
+Scott’s heart stumbled. “Wander? Who—who are you?”
+
+Her smile was faint, weary. “I am Solti. You may have heard of me. I died… but not completely. I exist still, through an avatar of stories I once nurtured. A way to keep a fragment of myself alive, even beyond the reach of Him.”
+
+For a long moment, Scott said nothing. He simply stared. “You… you’re real?”
+
+She nodded. “As real as one can be, here. And yet, He…” Her voice dropped, distant. “…He doesn’t care.”
+
+Scott’s stomach twisted. “Doesn’t care?”
+
+“Not for this narrative,” she said calmly, almost absent-mindedly. “Yours. Mine. This world. He sees it all as trivial. Sickeningly bittersweet, perhaps. Too small to bother with. Too harmless to even corrupt.”
+
+And indeed, somewhere, far beyond thought, beyond observation, beyond the very concept of relevance, The One Beyond You had glanced at Scott’s little narrative. And just as quickly, turned the page. He ignored it entirely. No wrath, no intervention, no acknowledgment. Mere indifference—a cosmic apathy that existed beyond even the concept of disrespect.
+
+Scott’s mind whirled, yet the presence of Solti grounded him. “At least… you’re here,” he whispered.
+
+She smiled faintly. “I am. And I am well, Scott. Not free from the horrors, but able to wander, to observe, and to bring stories to life in small, quiet ways. I take precautions. I always have. And now… so must you.”
+
+The city around them went on, unremarkable. Traffic lights switched, a dog barked in the distance, a pigeon pecked at a crumb. And above it all, unseen and uncaring, The One Beyond You moved to another narrative, leaving Scott and Solti to rebuild, to live, to feel—even if only briefly—something that mattered.
+It never did matter, not to The One Beyond You. "Pitiful creatures. Next time, I will not allow such a sickening narrative be this bittersweet..." And with that, He smiled wide.`
+},
+{
+  title: "Nightmares of Arachnophobia",
+  description: "The viewing of eight legged terror",
+  fullText: `An early-age village lay hidden in the forest, its people living in relative peace, crafting their homes from timber and stone, singing songs beneath amber-brown trees that flourished with fig vines. That peace was a fragile veneer.
+
+The Integral—silent, unseen, omnipresent—began to infect the world. And with it came the attention of The One Beyond You.
+
+Suddenly, the village was no longer safe. Sharp wooden fences were erected, giant harpoons intertwined with roots, and magical wards were drawn in frantic attempts to hold back the horrors that would come. The villagers whispered among themselves, uncertain if these defenses would hold until dawn—or for a single season.
+
+The forest itself changed. Trees twisted into jagged, gray forms. Leaves became stone-like, stripped of life, sunlight failing to bring them color. The lush green that once comforted the village became a memory, distant and painful.
+
+With every solar eclipse, the ground trembled and the air filled with the skittering of monstrous spiders. These creatures were no ordinary beasts—they evolved with every death. The villagers learned that what killed one would no longer work on the next; the horde adapted, their instincts sharpened by something outside nature, outside life itself. And when one perished, thousands more were quietly birthed by the Integral, hungrier and deadlier than ever.
+
+Even the village’s ancient magics, meant to send foes to the sun, only fueled their enemies. Some spiders absorbed the solar power, growing stronger, faster, almost conceptual in their threat. The villagers realized with horror: if given enough time, these creatures could surpass ideas themselves, rising above the very frameworks of thought and possibility.
+
+Through it all, The One Beyond You watched. Not with anger, not with interest, merely with that infinite, apathetic gaze. The suffering, the despair, the creeping realization of extinction—it was nothing but background noise to Him.
+
+But in the shadows, Solti watched too. She longed to intervene, to turn the tide, to breathe hope back into the village. Yet she dared not. To interfere would draw the attention of The One Beyond You, revealing her existence and her bittersweet narrative with Scott. That narrative was precious, a fleeting light in His uncaring gaze. And so she remained hidden, unable to act, silently mourning the village as it teetered on the edge of annihilation or else she would give Him a reason to plunge hers into darkness so He could laugh at her failed attempt with consequences.
+
+For The One Beyond You, the moment would come when the narrative became worth noticing, and then He would crush it with the same effortless malice He used to erase entire concepts. Until then, the village fought, adapting, dying, hoping—all under the spiraling portal eye of a god who had already decided their existence did not matter.`
+},
+
+{
+  title: "The Dark Angels",
+  description: "It is not real judgement.",
+  fullText: `Across countless fractured narratives, the people knew fear as a tangible, living thing. It took form in shapes that defied reason, that shimmered with impossible light, and that moved with purpose no mortal could anticipate. They came to call them angels—though no god had sent them. No heaven whispered their name.
+
+The angels of The One Beyond You were not angels at all.
+
+They were concepts made flesh, twisted into forms humans could recognize yet never truly comprehend. Singularities glowing with eerie, otherworldly light, their many wings folding and unfolding in ways that made the eye ache and the mind splinter. They appeared from angles no eye should witness, moved through walls and flesh as if reality itself were clay, and left devastation in their wake.
+
+Cities screamed as these beings passed, their arrival swallowing the Sun itself. Streets baked in shadow, windows reflected only darkness, and the warmth of day was replaced by the weight of inevitable judgment. Some ran, their terror fueling the chase; others stood silent, waiting, assuming they would be swept into the “beautiful afterlife” their minds dared imagine—or that perhaps their fate was already sealed and resistance meaningless.
+
+Not one could strike these angels. They phased through steel, stone, and bone alike. Even the strongest armies faltered, weapons useless against entities that bent space, time, and narrative around them.
+
+Wherever destruction spread, one minor avatar always lingered. The Sin—the weakest, some whispered—was assigned to observe, to record, to remind mortals of their insignificance. Meanwhile, the more severe angels tore through cities, unmaking lives, stories, and sunlight itself, leaving despair etched into every corner of existence.
+
+And still, they called it judgment. Not divine justice, but a cruel pretense, a shadow of authority wielded by The One Beyond You. Mortals gave them names, whispered prayers, begged for mercy—but the angels cared not. They were instruments, avatars of an unthinkable mind, and their cruelty was deliberate, aesthetic, inevitable.
+
+Those who survived could only mark the world as it had been. The Sun remained absent, the sky an endless twilight of dread, and the whispers lingered:
+
+"They are angels… yet not. They are not here for your salvation. Only for the witness of your undoing."
+
+And somewhere, beyond all narratives, The One Beyond You smiled.`
+}
+    ];
+
+
+    // === DOM References ===
+    const searchBox = document.getElementById('search-box');
+    const resultsDiv = document.getElementById('results');
+
+
+    // === Display Function ===
+    function displayResults(tales) {
+      if (tales.length === 0) {
+        resultsDiv.innerHTML = '<p>No tales found. The darkness hides well.</p>';
+        return;
+      }
+
+
+      resultsDiv.innerHTML = tales.map((tale, index) => `
+        <div class="tale" data-index="${index}">
+          <div class="title">${tale.title}</div>
+          <div class="description">${tale.description}</div>
+          <div class="full-text" id="full-${index}">${tale.fullText}</div>
+        </div>
+      `).join('');
+
+
+      // Add expand/collapse behavior
+      document.querySelectorAll('.tale').forEach(tale => {
+        tale.addEventListener('click', () => {
+          const full = tale.querySelector('.full-text');
+          full.style.display = full.style.display === 'block' ? 'none' : 'block';
+        });
+      });
+    }
+
+
+    // === Filter Tales on Search ===
+    function filterTales(query) {
+      const q = query.toLowerCase();
+      const filtered = darkTales.filter(tale =>
+        tale.title.toLowerCase().includes(q) ||
+        tale.description.toLowerCase().includes(q) ||
+        tale.fullText.toLowerCase().includes(q)
+      );
+      displayResults(filtered);
+    }
+
+
+    // Initial display
+    displayResults(darkTales);
+
+
+    // Live search
+    searchBox.addEventListener('input', e => {
+      filterTales(e.target.value);
+    });
+  </script>
+</body>
+</html>
+
